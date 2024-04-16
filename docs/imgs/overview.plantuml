@@ -1,0 +1,125 @@
+' Copyright (C) 2024 Declan Teevan
+'
+' This program is free software: you can redistribute it and/or modify
+' it under the terms of the GNU Affero General Public License as published by
+' the Free Software Foundation, either version 3 of the License, or
+' (at your option) any later version.
+'
+' This program is distributed in the hope that it will be useful,
+' but WITHOUT ANY WARRANTY; without even the implied warranty of
+' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+' GNU Affero General Public License for more details.
+'
+' You should have received a copy of the GNU Affero General Public License
+' along with this program.  If not, see <https://www.gnu.org/licenses/>.
+
+@startuml overview
+!theme mars
+
+cloud "API Gateway (Envoy)" as APIGateway
+queue "Message Broker (Kafka)" as MsgBroker
+collections "Message Relay (Debezium)" as OutboxConnector
+
+database "Auth Database" as AuthDB
+database "Order Database" as OrderDB
+database "Payment  Database" as PaymentDB
+database "Product Database" as ProductDB
+database "Shipping Database" as ShippingDB
+database "User Database" as UserDB
+database "Warehouse Database" as WarehouseDB
+
+rectangle "Auth Service" as AuthService {
+  agent "gRPC Gateway" as AuthGateway
+  agent "Event Consumer" as AuthConsumer
+  usecase "gRPC Service" as AuthGrpc
+
+  AuthGrpc <-u- AuthGateway
+  AuthGrpc <-u- AuthConsumer
+  AuthGrpc --> AuthDB
+}
+
+rectangle "Order Service" as OrderService {
+  agent "gRPC Gateway" as OrderGateway
+  agent "Event Consumer" as OrderConsumer
+  usecase "gRPC Service" as OrderGrpc
+
+  OrderGrpc <-u- OrderGateway
+  OrderGrpc <-u- OrderConsumer
+  OrderGrpc --> OrderDB
+}
+
+rectangle "Payment Service" as PaymentService {
+  agent "gRPC Gateway" as PaymentGateway
+  agent "Event Consumer" as PaymentConsumer
+  usecase "gRPC Service" as PaymentGrpc
+
+  PaymentGrpc <-u- PaymentGateway
+  PaymentGrpc <-u- PaymentConsumer
+  PaymentGrpc --> PaymentDB
+}
+
+rectangle "Product Service" as ProductService {
+  agent "gRPC Gateway" as ProductGateway
+  agent "Event Consumer" as ProductConsumer
+  usecase "gRPC Service" as ProductGrpc
+
+  ProductGrpc <-u- ProductGateway
+  ProductGrpc <-u- ProductConsumer
+  ProductGrpc --> ProductDB
+}
+
+rectangle "Shipping Service" as ShippingService {
+  agent "gRPC Gateway" as ShippingGateway
+  agent "Event Consumer" as ShippingConsumer
+  usecase "gRPC Service" as ShippingGrpc
+
+  ShippingGrpc <-u- ShippingGateway
+  ShippingGrpc <-u- ShippingConsumer
+  ShippingGrpc --> ShippingDB
+}
+
+rectangle "User Service" as UserService {
+  agent "gRPC Gateway" as UserGateway
+  usecase "gRPC Service" as UserGrpc
+
+  UserGrpc <-u- UserGateway
+  UserGrpc --> UserDB
+}
+
+rectangle "Warehouse Service" as WarehouseService {
+  agent "gRPC Gateway" as WarehouseGateway
+  agent "Event Consumer" as WarehouseConsumer
+  usecase "gRPC Service" as WarehouseGrpc
+
+  WarehouseGrpc <-u- WarehouseGateway
+  WarehouseGrpc <-u- WarehouseConsumer
+  WarehouseGrpc --> WarehouseDB
+}
+
+APIGateway ....> AuthGateway : "HTTP"
+APIGateway ....> OrderGateway : "HTTP"
+APIGateway ....> PaymentGateway : "HTTP"
+APIGateway ....> ProductGateway : "HTTP"
+APIGateway ....> ShippingGateway : "HTTP"
+APIGateway ....> UserGateway : "HTTP"
+APIGateway ....> WarehouseGateway : "HTTP"
+
+UserGrpc .l.> AuthGrpc : "gRPC        "
+
+AuthDB ---[hidden]> OutboxConnector
+OrderDB ---> OutboxConnector : "Outbox"
+PaymentDB ---> OutboxConnector : "Outbox"
+ProductDB ---> OutboxConnector : "Outbox"
+ShippingDB ---> OutboxConnector : "Outbox"
+UserDB ---> OutboxConnector : "Outbox"
+WarehouseDB ---> OutboxConnector : "Outbox"
+
+OutboxConnector ..> MsgBroker : "Publish Events"
+
+MsgBroker ...> AuthConsumer
+MsgBroker ...> OrderConsumer
+MsgBroker ...> PaymentConsumer
+MsgBroker ...> ProductConsumer
+MsgBroker ...> ShippingConsumer
+MsgBroker ...> WarehouseConsumer
+@enduml

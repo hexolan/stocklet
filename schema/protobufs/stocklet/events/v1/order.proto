@@ -1,0 +1,63 @@
+// Copyright (C) 2024 Declan Teevan
+//
+// This program is free software: you can redistribute it and/or modify
+// it under the terms of the GNU Affero General Public License as published by
+// the Free Software Foundation, either version 3 of the License, or
+// (at your option) any later version.
+//
+// This program is distributed in the hope that it will be useful,
+// but WITHOUT ANY WARRANTY; without even the implied warranty of
+// MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+// GNU Affero General Public License for more details.
+//
+// You should have received a copy of the GNU Affero General Public License
+// along with this program.  If not, see <https://www.gnu.org/licenses/>.
+
+syntax = "proto3";
+
+package stocklet.events.v1;
+
+option go_package = "github.com/hexolan/stocklet/internal/pkg/protogen/events/v1;events_v1";
+
+// Order Status = processing
+message OrderCreatedEvent {
+  int32 revision = 1;
+
+  string order_id = 2;
+  string customer_id = 3;
+
+  map<string, int32> item_quantities = 4;
+}
+
+// Order Status = pending
+message OrderPendingEvent {
+  int32 revision = 1;
+
+  string order_id = 2;
+  string customer_id = 3;
+
+  map<string, int32> item_quantities = 4;
+
+  float items_price = 5;
+  float total_price = 6;
+}
+
+// Order Status = rejected
+message OrderRejectedEvent {
+  int32 revision = 1;
+
+  string order_id = 2;
+
+  optional string transaction_id = 3;
+  optional string shipping_id = 4;
+}
+
+// Order Status = approved
+message OrderApprovedEvent {
+  int32 revision = 1;
+
+  string order_id = 2;
+
+  string transaction_id = 3;
+  string shipping_id = 4;
+}

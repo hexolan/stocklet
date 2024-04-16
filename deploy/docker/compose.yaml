@@ -1,0 +1,479 @@
+services:
+  # Infrastructure
+  edge-gateway:
+    image: stocklet/edge-gateway
+    build:
+      context: ../../build/edge-gateway
+    ports:
+      - 80:80
+    depends_on:
+      - otel-collector
+    networks:
+      - stocklet-network
+
+  otel-collector:
+    image: stocklet/otel-collector
+    build:
+      context: ../../build/otel-collector
+    networks:
+      - stocklet-network
+
+  kafka:
+    image: bitnami/kafka:3.4
+    restart: unless-stopped
+    environment:
+      - KAFKA_CFG_NODE_ID=0
+      - KAFKA_CFG_PROCESS_ROLES=controller,broker
+      - KAFKA_CFG_LISTENERS=CONTROLLER://:19093,INTERNAL://:19092,EXTERNAL://:9092
+      - KAFKA_CFG_ADVERTISED_LISTENERS=INTERNAL://kafka:19092,EXTERNAL://localhost:9092
+      - KAFKA_CFG_LISTENER_SECURITY_PROTOCOL_MAP=CONTROLLER:PLAINTEXT,INTERNAL:PLAINTEXT,EXTERNAL:PLAINTEXT
+      - KAFKA_CFG_CONTROLLER_QUORUM_VOTERS=0@kafka:19093
+      - KAFKA_CFG_INTER_BROKER_LISTENER_NAME=INTERNAL
+      - KAFKA_CFG_CONTROLLER_LISTENER_NAMES=CONTROLLER
+      - KAFKA_KRAFT_CLUSTER_ID=g9rbXaCaSGqB3CURPeEvTA
+    healthcheck:
+      test: ["CMD-SHELL", "kafka-topics.sh --bootstrap-server localhost:9092 --list"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+      start_period: 30s
+    depends_on:
+      - otel-collector
+    volumes:
+      - stocklet-kafka-volume:/bitnami/kafka
+    networks:
+      - stocklet-network
+
+  debezium:
+    image: debezium/connect:latest
+    restart: unless-stopped
+    environment:
+      - GROUP_ID=0
+      - BOOTSTRAP_SERVERS=kafka:19092
+      - CONFIG_STORAGE_TOPIC=debezium-config
+      - STATUS_STORAGE_TOPIC=debezium-status
+      - OFFSET_STORAGE_TOPIC=debezium-offset
+    healthcheck:
+      test: ["CMD-SHELL", "curl --silent --fail -X GET http://localhost:8083/connectors"]
+      interval: 10s
+      timeout: 5s
+      retries: 10
+      start_period: 15s
+    depends_on:
+      kafka:
+        condition: service_healthy
+      order-service-postgres:
+        condition: service_healthy
+    networks:
+      - stocklet-network
+      - stocklet-order-network
+      - stocklet-payment-network
+      - stocklet-product-network
+      - stocklet-shipping-network
+      - stocklet-user-network
+      - stocklet-warehouse-network
+
+  # Services
+  auth-service:
+    image: stocklet/auth-service
+    build: 
+      context: ../../
+      dockerfile: build/auth-service/Dockerfile
+    depends_on:
+      init-auth-service:
+        condition: service_completed_successfully
+      auth-service-postgres:
+        condition: service_healthy
+      kafka:
+        condition: service_healthy
+    env_file:
+      - ../configs/auth.env
+    networks:
+      - stocklet-network
+      - stocklet-auth-network
+
+  order-service:
+    image: stocklet/order-service
+    build: 
+      context: ../../
+      dockerfile: build/order-service/Dockerfile
+    depends_on:
+      init-order-service:
+        condition: service_completed_successfully
+      order-service-postgres:
+        condition: service_healthy
+      kafka:
+        condition: service_healthy
+    env_file:
+      - ../configs/order.env
+    networks:
+      - stocklet-network
+      - stocklet-order-network
+
+  payment-service:
+    image: stocklet/payment-service
+    build: 
+      context: ../../
+      dockerfile: build/payment-service/Dockerfile
+    depends_on:
+      init-payment-service:
+        condition: service_completed_successfully
+      payment-service-postgres:
+        condition: service_healthy
+      kafka:
+        condition: service_healthy
+    env_file:
+      - ../configs/payment.env
+    networks:
+      - stocklet-network
+      - stocklet-payment-network
+
+  product-service:
+    image: stocklet/product-service
+    build: 
+      context: ../../
+      dockerfile: build/product-service/Dockerfile
+    depends_on:
+      init-product-service:
+        condition: service_completed_successfully
+      product-service-postgres:
+        condition: service_healthy
+      kafka:
+        condition: service_healthy
+    env_file:
+      - ../configs/product.env
+    networks:
+      - stocklet-network
+      - stocklet-product-network
+
+  shipping-service:
+    image: stocklet/shipping-service
+    build: 
+      context: ../../
+      dockerfile: build/shipping-service/Dockerfile
+    depends_on:
+      init-shipping-service:
+        condition: service_completed_successfully
+      shipping-service-postgres:
+        condition: service_healthy
+      kafka:
+        condition: service_healthy
+    env_file:
+      - ../configs/shipping.env
+    networks:
+      - stocklet-network
+      - stocklet-shipping-network
+
+  user-service:
+    image: stocklet/user-service
+    build: 
+      context: ../../
+      dockerfile: build/user-service/Dockerfile
+    depends_on:
+      init-user-service:
+        condition: service_completed_successfully
+      user-service-postgres:
+        condition: service_healthy
+      kafka:
+        condition: service_healthy
+    env_file:
+      - ../configs/user.env
+    networks:
+      - stocklet-network
+      - stocklet-user-network
+
+  warehouse-service:
+    image: stocklet/warehouse-service
+    build: 
+      context: ../../
+      dockerfile: build/warehouse-service/Dockerfile
+    depends_on:
+      init-warehouse-service:
+        condition: service_completed_successfully
+      warehouse-service-postgres:
+        condition: service_healthy
+      kafka:
+        condition: service_healthy
+    env_file:
+      - ../configs/warehouse.env
+    networks:
+      - stocklet-network
+      - stocklet-warehouse-network
+
+  # Service Databases
+  auth-service-postgres:
+    image: postgres:16-bookworm
+    restart: unless-stopped
+    environment:
+      POSTGRES_DB: "postgres"
+      POSTGRES_USER: "postgres"
+      POSTGRES_PASSWORD: "postgres"
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U $$POSTGRES_USER -d $$POSTGRES_DB"]
+      interval: 30s
+      timeout: 15s
+      retries: 3
+      start_period: 30s
+    command: ["postgres", "-c", "wal_level=logical"]
+    volumes:
+      - stocklet-auth-postgres-volume:/var/lib/postgresql
+    networks:
+      - stocklet-auth-network
+
+  order-service-postgres:
+    image: postgres:16-bookworm
+    restart: unless-stopped
+    environment:
+      POSTGRES_DB: "postgres"
+      POSTGRES_USER: "postgres"
+      POSTGRES_PASSWORD: "postgres"
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U $$POSTGRES_USER -d $$POSTGRES_DB"]
+      interval: 30s
+      timeout: 15s
+      retries: 3
+      start_period: 30s
+    command: ["postgres", "-c", "wal_level=logical"]
+    volumes:
+      - stocklet-order-postgres-volume:/var/lib/postgresql
+    networks:
+      - stocklet-order-network
+
+  payment-service-postgres:
+    image: postgres:16-bookworm
+    restart: unless-stopped
+    environment:
+      POSTGRES_DB: "postgres"
+      POSTGRES_USER: "postgres"
+      POSTGRES_PASSWORD: "postgres"
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U $$POSTGRES_USER -d $$POSTGRES_DB"]
+      interval: 30s
+      timeout: 15s
+      retries: 3
+      start_period: 30s
+    command: ["postgres", "-c", "wal_level=logical"]
+    volumes:
+      - stocklet-payment-postgres-volume:/var/lib/postgresql
+    networks:
+      - stocklet-payment-network
+
+  product-service-postgres:
+    image: postgres:16-bookworm
+    restart: unless-stopped
+    environment:
+      POSTGRES_DB: "postgres"
+      POSTGRES_USER: "postgres"
+      POSTGRES_PASSWORD: "postgres"
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U $$POSTGRES_USER -d $$POSTGRES_DB"]
+      interval: 30s
+      timeout: 15s
+      retries: 3
+      start_period: 30s
+    command: ["postgres", "-c", "wal_level=logical"]
+    volumes:
+      - stocklet-product-postgres-volume:/var/lib/postgresql
+    networks:
+      - stocklet-product-network
+
+  shipping-service-postgres:
+    image: postgres:16-bookworm
+    restart: unless-stopped
+    environment:
+      POSTGRES_DB: "postgres"
+      POSTGRES_USER: "postgres"
+      POSTGRES_PASSWORD: "postgres"
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U $$POSTGRES_USER -d $$POSTGRES_DB"]
+      interval: 30s
+      timeout: 15s
+      retries: 3
+      start_period: 30s
+    command: ["postgres", "-c", "wal_level=logical"]
+    volumes:
+      - stocklet-shipping-postgres-volume:/var/lib/postgresql
+    networks:
+      - stocklet-shipping-network
+
+  user-service-postgres:
+    image: postgres:16-bookworm
+    restart: unless-stopped
+    environment:
+      POSTGRES_DB: "postgres"
+      POSTGRES_USER: "postgres"
+      POSTGRES_PASSWORD: "postgres"
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U $$POSTGRES_USER -d $$POSTGRES_DB"]
+      interval: 30s
+      timeout: 15s
+      retries: 3
+      start_period: 30s
+    command: ["postgres", "-c", "wal_level=logical"]
+    volumes:
+      - stocklet-user-postgres-volume:/var/lib/postgresql
+    networks:
+      - stocklet-user-network
+
+  warehouse-service-postgres:
+    image: postgres:16-bookworm
+    restart: unless-stopped
+    environment:
+      POSTGRES_DB: "postgres"
+      POSTGRES_USER: "postgres"
+      POSTGRES_PASSWORD: "postgres"
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U $$POSTGRES_USER -d $$POSTGRES_DB"]
+      interval: 30s
+      timeout: 15s
+      retries: 3
+      start_period: 30s
+    command: ["postgres", "-c", "wal_level=logical"]
+    volumes:
+      - stocklet-warehouse-postgres-volume:/var/lib/postgresql
+    networks:
+      - stocklet-warehouse-network
+
+  # Service Init Containers
+  init-auth-service:
+    image: stocklet/service-init
+    build: 
+      context: ../../
+      dockerfile: build/service-init/Dockerfile
+    depends_on:
+      auth-service-postgres:
+        condition: service_healthy
+    env_file:
+      - ../configs/auth-init.env
+    volumes:
+      - ../../schema/sql/auth:/migrations
+    networks:
+      - stocklet-auth-network
+
+  init-order-service:
+    image: stocklet/service-init
+    build: 
+      context: ../../
+      dockerfile: build/service-init/Dockerfile
+    depends_on:
+      debezium:
+        condition: service_healthy
+      order-service-postgres:
+        condition: service_healthy
+    env_file:
+      - ../configs/order-init.env
+    volumes:
+      - ../../schema/sql/order:/migrations
+    networks:
+      - stocklet-network
+      - stocklet-order-network
+
+  init-payment-service:
+    image: stocklet/service-init
+    build: 
+      context: ../../
+      dockerfile: build/service-init/Dockerfile
+    depends_on:
+      debezium:
+        condition: service_healthy
+      payment-service-postgres:
+        condition: service_healthy
+    env_file:
+      - ../configs/payment-init.env
+    volumes:
+      - ../../schema/sql/payment:/migrations
+    networks:
+      - stocklet-network
+      - stocklet-payment-network
+
+  init-product-service:
+    image: stocklet/service-init
+    build: 
+      context: ../../
+      dockerfile: build/service-init/Dockerfile
+    depends_on:
+      debezium:
+        condition: service_healthy
+      product-service-postgres:
+        condition: service_healthy
+    env_file:
+      - ../configs/product-init.env
+    volumes:
+      - ../../schema/sql/product:/migrations
+    networks:
+      - stocklet-network
+      - stocklet-product-network
+
+  init-shipping-service:
+    image: stocklet/service-init
+    build: 
+      context: ../../
+      dockerfile: build/service-init/Dockerfile
+    depends_on:
+      debezium:
+        condition: service_healthy
+      shipping-service-postgres:
+        condition: service_healthy
+    env_file:
+      - ../configs/shipping-init.env
+    volumes:
+      - ../../schema/sql/shipping:/migrations
+    networks:
+      - stocklet-network
+      - stocklet-shipping-network
+
+  init-user-service:
+    image: stocklet/service-init
+    build: 
+      context: ../../
+      dockerfile: build/service-init/Dockerfile
+    depends_on:
+      debezium:
+        condition: service_healthy
+      user-service-postgres:
+        condition: service_healthy
+    env_file:
+      - ../configs/user-init.env
+    volumes:
+      - ../../schema/sql/user:/migrations
+    networks:
+      - stocklet-network
+      - stocklet-user-network
+
+  init-warehouse-service:
+    image: stocklet/service-init
+    build: 
+      context: ../../
+      dockerfile: build/service-init/Dockerfile
+    depends_on:
+      debezium:
+        condition: service_healthy
+      warehouse-service-postgres:
+        condition: service_healthy
+    env_file:
+      - ../configs/warehouse-init.env
+    volumes:
+      - ../../schema/sql/warehouse:/migrations
+    networks:
+      - stocklet-network
+      - stocklet-warehouse-network
+
+networks:
+  stocklet-network:
+  stocklet-auth-network:
+  stocklet-order-network:
+  stocklet-payment-network:
+  stocklet-product-network:
+  stocklet-shipping-network:
+  stocklet-user-network:
+  stocklet-warehouse-network:
+
+volumes:
+  stocklet-kafka-volume:
+  stocklet-auth-postgres-volume:
+  stocklet-order-postgres-volume:
+  stocklet-payment-postgres-volume:
+  stocklet-product-postgres-volume:
+  stocklet-shipping-postgres-volume:
+  stocklet-user-postgres-volume:
+  stocklet-warehouse-postgres-volume:

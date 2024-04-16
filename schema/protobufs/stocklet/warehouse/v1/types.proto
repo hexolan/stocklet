@@ -1,0 +1,41 @@
+// Copyright (C) 2024 Declan Teevan
+//
+// This program is free software: you can redistribute it and/or modify
+// it under the terms of the GNU Affero General Public License as published by
+// the Free Software Foundation, either version 3 of the License, or
+// (at your option) any later version.
+//
+// This program is distributed in the hope that it will be useful,
+// but WITHOUT ANY WARRANTY; without even the implied warranty of
+// MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+// GNU Affero General Public License for more details.
+//
+// You should have received a copy of the GNU Affero General Public License
+// along with this program.  If not, see <https://www.gnu.org/licenses/>.
+
+syntax = "proto3";
+
+package stocklet.warehouse.v1;
+
+import "buf/validate/validate.proto";
+
+option go_package = "github.com/hexolan/stocklet/internal/pkg/protogen/warehouse/v1;warehouse_v1";
+
+message ProductStock {
+  string product_id = 1 [(buf.validate.field).string.min_len = 1];
+  int32 quantity = 2 [(buf.validate.field).int32.gte = 0];
+}
+
+message Reservation {
+  string id = 1 [(buf.validate.field).string.min_len = 1];
+
+  string order_id = 2 [(buf.validate.field).string.min_len = 1];
+  repeated ReservationStock reserved_stock = 3;
+
+  int64 created_at = 4;
+}
+
+message ReservationStock {
+  string product_id = 1 [(buf.validate.field).string.min_len = 1];
+  int32 quantity = 2 [(buf.validate.field).int32.gte = 0];
+}

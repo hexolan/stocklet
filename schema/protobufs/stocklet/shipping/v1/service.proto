@@ -1,0 +1,80 @@
+// Copyright (C) 2024 Declan Teevan
+//
+// This program is free software: you can redistribute it and/or modify
+// it under the terms of the GNU Affero General Public License as published by
+// the Free Software Foundation, either version 3 of the License, or
+// (at your option) any later version.
+//
+// This program is distributed in the hope that it will be useful,
+// but WITHOUT ANY WARRANTY; without even the implied warranty of
+// MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+// GNU Affero General Public License for more details.
+//
+// You should have received a copy of the GNU Affero General Public License
+// along with this program.  If not, see <https://www.gnu.org/licenses/>.
+
+syntax = "proto3";
+
+package stocklet.shipping.v1;
+
+import "buf/validate/validate.proto";
+import "google/api/annotations.proto";
+import "google/api/visibility.proto";
+import "google/protobuf/empty.proto";
+import "stocklet/common/v1/requests.proto";
+import "stocklet/events/v1/payment.proto";
+import "stocklet/events/v1/warehouse.proto";
+import "stocklet/shipping/v1/types.proto";
+
+option go_package = "github.com/hexolan/stocklet/internal/pkg/protogen/shipping/v1;shipping_v1";
+
+service ShippingService {
+  // View information about the service.
+  //
+  // buf:lint:ignore RPC_REQUEST_RESPONSE_UNIQUE
+  rpc ServiceInfo(stocklet.common.v1.ServiceInfoRequest) returns (stocklet.common.v1.ServiceInfoResponse) {
+    option (google.api.http) = {get: "/v1/shipping/service"};
+  }
+
+  rpc ViewShipment(ViewShipmentRequest) returns (ViewShipmentResponse) {
+    option (google.api.http) = {get: "/v1/shipping/shipment/{shipment_id}"};
+  }
+
+  rpc ViewShipmentManifest(ViewShipmentManifestRequest) returns (ViewShipmentManifestResponse) {
+    option (google.api.http) = {get: "/v1/shipping/shipment/{shipment_id}/manifest"};
+  }
+
+  // A consumer will call this method to process events.
+  //
+  // buf:lint:ignore RPC_REQUEST_RESPONSE_UNIQUE
+  // buf:lint:ignore RPC_REQUEST_STANDARD_NAME
+  // buf:lint:ignore RPC_RESPONSE_STANDARD_NAME
+  rpc ProcessStockReservationEvent(stocklet.events.v1.StockReservationEvent) returns (google.protobuf.Empty) {
+    option (google.api.method_visibility).restriction = "INTERNAL";
+  }
+
+  // A consumer will call this method to process events.
+  //
+  // buf:lint:ignore RPC_REQUEST_RESPONSE_UNIQUE
+  // buf:lint:ignore RPC_REQUEST_STANDARD_NAME
+  // buf:lint:ignore RPC_RESPONSE_STANDARD_NAME
+  rpc ProcessPaymentProcessedEvent(stocklet.events.v1.PaymentProcessedEvent) returns (google.protobuf.Empty) {
+    option (google.api.method_visibility).restriction = "INTERNAL";
+  }
+}
+
+message ViewShipmentRequest {
+  string shipment_id = 1 [(buf.validate.field).string.min_len = 1];
+}
+
+message ViewShipmentResponse {
+  Shipment shipment = 1;
+}
+
+message ViewShipmentManifestRequest {
+  string shipment_id = 1 [(buf.validate.field).string.min_len = 1];
+}
+
+message ViewShipmentManifestResponse {
+  repeated ShipmentItem manifest = 1;
+}

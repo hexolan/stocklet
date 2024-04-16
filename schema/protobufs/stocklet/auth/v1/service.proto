@@ -1,0 +1,110 @@
+// Copyright (C) 2024 Declan Teevan
+//
+// This program is free software: you can redistribute it and/or modify
+// it under the terms of the GNU Affero General Public License as published by
+// the Free Software Foundation, either version 3 of the License, or
+// (at your option) any later version.
+//
+// This program is distributed in the hope that it will be useful,
+// but WITHOUT ANY WARRANTY; without even the implied warranty of
+// MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+// GNU Affero General Public License for more details.
+//
+// You should have received a copy of the GNU Affero General Public License
+// along with this program.  If not, see <https://www.gnu.org/licenses/>.
+
+syntax = "proto3";
+
+package stocklet.auth.v1;
+
+import "buf/validate/validate.proto";
+import "google/api/annotations.proto";
+import "google/api/field_behavior.proto";
+import "google/api/visibility.proto";
+import "google/protobuf/empty.proto";
+import "stocklet/auth/v1/types.proto";
+import "stocklet/common/v1/requests.proto";
+import "stocklet/events/v1/user.proto";
+
+option go_package = "github.com/hexolan/stocklet/internal/pkg/protogen/auth/v1;auth_v1";
+
+service AuthService {
+  // View information about the service.
+  //
+  // buf:lint:ignore RPC_REQUEST_RESPONSE_UNIQUE
+  rpc ServiceInfo(stocklet.common.v1.ServiceInfoRequest) returns (stocklet.common.v1.ServiceInfoResponse) {
+    option (google.api.http) = {get: "/v1/auth/service"};
+  }
+
+  rpc GetJwks(GetJwksRequest) returns (GetJwksResponse) {
+    option (google.api.http) = {get: "/v1/auth/jwks"};
+  }
+
+  rpc LoginPassword(LoginPasswordRequest) returns (LoginPasswordResponse) {
+    option (google.api.http) = {
+      post: "/v1/auth/login"
+      body: "*"
+    };
+  }
+
+  rpc SetPassword(SetPasswordRequest) returns (SetPasswordResponse) {
+    option (google.api.http) = {
+      post: "/v1/auth/password"
+      body: "*"
+    };
+  }
+
+  // A consumer will call this method to process events.
+  //
+  // buf:lint:ignore RPC_REQUEST_RESPONSE_UNIQUE
+  // buf:lint:ignore RPC_REQUEST_STANDARD_NAME
+  // buf:lint:ignore RPC_RESPONSE_STANDARD_NAME
+  rpc ProcessUserDeletedEvent(stocklet.events.v1.UserDeletedEvent) returns (google.protobuf.Empty) {
+    option (google.api.method_visibility).restriction = "INTERNAL";
+  }
+}
+
+message GetJwksRequest {}
+
+message GetJwksResponse {
+  repeated PublicEcJWK keys = 1;
+}
+
+message LoginPasswordRequest {
+  string user_id = 1 [
+    (google.api.field_behavior) = REQUIRED,
+    (buf.validate.field).string.min_len = 1
+  ];
+
+  string password = 2 [
+    (google.api.field_behavior) = REQUIRED,
+    (buf.validate.field).string = {
+      min_len: 1;
+      max_len: 64;
+    }
+  ];
+}
+
+message LoginPasswordResponse {
+  string detail = 1;
+  AuthToken data = 2;
+}
+
+message SetPasswordRequest {
+  string user_id = 1 [
+    (google.api.field_behavior) = REQUIRED,
+    (buf.validate.field).string.min_len = 1
+  ];
+
+  string password = 2 [
+    (google.api.field_behavior) = REQUIRED,
+    (buf.validate.field).string = {
+      min_len: 1;
+      max_len: 64;
+    }
+  ];
+}
+
+message SetPasswordResponse {
+  string detail = 1;
+}

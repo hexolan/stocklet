@@ -1,0 +1,142 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg style="width:1250px;height:1276px;background:#F9F9F9;" contentStyleType="text/css" preserveAspectRatio="none" version="1.1" viewBox="0 0 1250 1276" width="1250px" height="1276px" xmlns="http://www.w3.org/2000/svg" zoomAndPan="magnify">
+<rect width="1250" height="1276" fill="#F9F9F9"/>
+<rect x="15" y="12.745" width="1217" height="20.953" fill="none"/>
+<ellipse cx="93.5" cy="48.698" rx="10" ry="10" fill="#222" stroke="#222"/>
+<rect x="23.5" y="78.698" width="140" height="33.969" rx="3.5" ry="3.5" fill="#F1F1F1" stroke="#181818" stroke-width=".5"/>
+<text x="33.5" y="99.8369" fill="#000000" font-family="sans-serif" font-size="12" textLength="120">OrderCreatedEvent</text>
+<rect x="21" y="235.04" width="145" height="33.969" rx="3.5" ry="3.5" fill="#F1F1F1" stroke="#181818" stroke-width=".5"/>
+<text x="31" y="256.1768" fill="#FF0000" font-family="sans-serif" font-size="12" textLength="125">OrderRejectedEvent</text>
+<rect x="23" y="311.01" width="141" height="33.969" rx="3.5" ry="3.5" fill="#F1F1F1" stroke="#181818" stroke-width=".5"/>
+<text x="33" y="332.1455" fill="#000000" font-family="sans-serif" font-size="12" textLength="121">OrderPendingEvent</text>
+<rect x="21" y="467.35" width="145" height="33.969" rx="3.5" ry="3.5" fill="#F1F1F1" stroke="#181818" stroke-width=".5"/>
+<text x="31" y="488.4854" fill="#FF0000" font-family="sans-serif" font-size="12" textLength="125">OrderRejectedEvent</text>
+<rect x="21" y="723.61" width="145" height="33.969" rx="3.5" ry="3.5" fill="#F1F1F1" stroke="#181818" stroke-width=".5"/>
+<text x="31" y="744.7471" fill="#FF0000" font-family="sans-serif" font-size="12" textLength="125">OrderRejectedEvent</text>
+<rect x="21" y="1037.8" width="145" height="33.969" rx="3.5" ry="3.5" fill="#F1F1F1" stroke="#181818" stroke-width=".5"/>
+<text x="31" y="1058.9619" fill="#FF0000" font-family="sans-serif" font-size="12" textLength="125">OrderRejectedEvent</text>
+<rect x="118" y="1172.9" width="149" height="33.969" rx="3.5" ry="3.5" fill="#f1f1f1" stroke="#181818" stroke-width=".5"/>
+<text transform="translate(0 33.158)" x="128" y="1160.9307" fill="#008000" font-family="sans-serif" font-size="12px" textLength="129">OrderApprovedEvent</text>
+<circle cx="192.5" cy="1252.9" r="11" fill="none" stroke="#222"/>
+<circle cx="192.5" cy="1252.9" r="6" fill="#222" stroke="#222"/>
+<line x1="15" x2="15" y1="12.745" y2="1264.8" stroke="#000" stroke-width="1.5"/>
+<rect x="277" y="132.67" width="173" height="33.969" rx="3.5" ry="3.5" fill="#F1F1F1" stroke="#181818" stroke-width=".5"/>
+<text x="287" y="153.8057" fill="#000000" font-family="sans-serif" font-size="12" textLength="153">ProductPriceQuoteEvent</text>
+<polygon points="351.5 186.64 375.5 186.64 387.5 198.64 375.5 210.64 351.5 210.64 339.5 198.64" fill="#F1F1F1" stroke="#181818" stroke-width=".5"/>
+<text x="367.5" y="220.8462" fill="#FF0000" font-family="sans-serif" font-size="11" textLength="74">UNAVALIABLE</text>
+<text x="351.5" y="202.4438" fill="#000000" font-family="sans-serif" font-size="11" textLength="24">type</text>
+<text x="387.5" y="196.0415" fill="#008000" font-family="sans-serif" font-size="11" textLength="58">AVALIABLE</text>
+<line x1="271" x2="271" y1="12.745" y2="1264.8" stroke="#000" stroke-width="1.5"/>
+<rect x="574.5" y="364.98" width="164" height="33.969" rx="3.5" ry="3.5" fill="#F1F1F1" stroke="#181818" stroke-width=".5"/>
+<text x="584.5" y="386.1143" fill="#000000" font-family="sans-serif" font-size="12" textLength="144">StockReservationEvent</text>
+<polygon points="644.5 418.94 668.5 418.94 680.5 430.94 668.5 442.94 644.5 442.94 632.5 430.94" fill="#F1F1F1" stroke="#181818" stroke-width=".5"/>
+<text x="660.5" y="453.1548" fill="#FF0000" font-family="sans-serif" font-size="11" textLength="120">INSUFFICIENT_STOCK</text>
+<text x="644.5" y="434.7524" fill="#000000" font-family="sans-serif" font-size="11" textLength="24">type</text>
+<text x="680.5" y="428.3501" fill="#008000" font-family="sans-serif" font-size="11" textLength="103">STOCK_RESERVED</text>
+<rect x="573.5" y="645.69" width="166" height="47.938" rx="3.5" ry="3.5" fill="#F1F1F1" stroke="#181818" stroke-width=".5"/>
+<text x="583.5" y="666.8252" fill="#000000" font-family="sans-serif" font-size="12" textLength="144">StockReservationEvent</text>
+<text x="583.5" y="680.7939" fill="#808080" font-family="sans-serif" font-size="12" textLength="146">type: STOCK_RETURNED</text>
+<rect x="573.5" y="969.89" width="166" height="47.938" rx="3.5" ry="3.5" fill="#F1F1F1" stroke="#181818" stroke-width=".5"/>
+<text x="583.5" y="991.0244" fill="#000000" font-family="sans-serif" font-size="12" textLength="144">StockReservationEvent</text>
+<text x="583.5" y="1004.9932" fill="#808080" font-family="sans-serif" font-size="12" textLength="146">type: STOCK_RETURNED</text>
+<rect x="483" y="1161.3" width="170" height="47.938" rx="3.5" ry="3.5" fill="#F1F1F1" stroke="#181818" stroke-width=".5"/>
+<text x="493" y="1182.4463" fill="#000000" font-family="sans-serif" font-size="12" textLength="144">StockReservationEvent</text>
+<text x="493" y="1196.415" fill="#808080" font-family="sans-serif" font-size="12" textLength="150">type: STOCK_CONSUMED</text>
+<line x1="465" x2="465" y1="12.745" y2="1264.8" stroke="#000" stroke-width="1.5"/>
+<rect x="816.5" y="543.32" width="175" height="33.969" rx="3.5" ry="3.5" fill="#F1F1F1" stroke="#181818" stroke-width=".5"/>
+<text x="826.5" y="564.4541" fill="#000000" font-family="sans-serif" font-size="12" textLength="155">ShipmentAllocationEvent</text>
+<polygon points="892 597.28 916 597.28 928 609.28 916 621.28 892 621.28 880 609.28" fill="#F1F1F1" stroke="#181818" stroke-width=".5"/>
+<text x="908" y="631.4946" fill="#FF0000" font-family="sans-serif" font-size="11" textLength="37">FAILED</text>
+<text x="892" y="613.0923" fill="#000000" font-family="sans-serif" font-size="11" textLength="24">type</text>
+<text x="928" y="606.6899" fill="#008000" font-family="sans-serif" font-size="11" textLength="65">ALLOCATED</text>
+<rect x="805.5" y="901.95" width="197" height="47.938" rx="3.5" ry="3.5" fill="#F1F1F1" stroke="#181818" stroke-width=".5"/>
+<text x="815.5" y="923.0869" fill="#000000" font-family="sans-serif" font-size="12" textLength="155">ShipmentAllocationEvent</text>
+<text x="815.5" y="937.0557" fill="#808080" font-family="sans-serif" font-size="12" textLength="177">type: ALLOCATION_RELEASED</text>
+<line x1="799.5" x2="799.5" y1="12.745" y2="1264.8" stroke="#000" stroke-width="1.5"/>
+<rect x="1022" y="799.58" width="175" height="33.969" rx="3.5" ry="3.5" fill="#F1F1F1" stroke="#181818" stroke-width=".5"/>
+<text x="1032" y="820.7158" fill="#000000" font-family="sans-serif" font-size="12" textLength="155">PaymentProcessedEvent</text>
+<polygon points="1097.5 853.55 1121.5 853.55 1133.5 865.55 1121.5 877.55 1097.5 877.55 1085.5 865.55" fill="#F1F1F1" stroke="#181818" stroke-width=".5"/>
+<text x="1113.5" y="887.7563" fill="#FF0000" font-family="sans-serif" font-size="11" textLength="37">FAILED</text>
+<text x="1097.5" y="869.354" fill="#000000" font-family="sans-serif" font-size="11" textLength="24">type</text>
+<text x="1133.5" y="862.9517" fill="#008000" font-family="sans-serif" font-size="11" textLength="55">SUCCESS</text>
+<line x1="1016" x2="1016" y1="12.745" y2="1264.8" stroke="#000" stroke-width="1.5"/>
+<line x1="1230" x2="1230" y1="12.745" y2="1264.8" stroke="#000" stroke-width="1.5"/>
+<line x1="93.5" x2="93.5" y1="58.698" y2="78.698" stroke="#191919"/>
+<polygon points="89.5 68.698 93.5 78.698 97.5 68.698 93.5 72.698" fill="#191919" stroke="#191919"/>
+<line x1="192.5" x2="192.5" y1="1206.9" y2="1241.9" stroke="#191919"/>
+<polygon transform="translate(0 33.158)" points="192.5 1208.8 196.5 1198.8 192.5 1202.8 188.5 1198.8" fill="#191919" stroke="#191919"/>
+<line x1="387.5" x2="446" y1="198.64" y2="198.64" stroke="#191919"/>
+<polygon points="442 247.77 446 257.77 450 247.77 446 251.77" fill="#191919" stroke="#191919"/>
+<line x1="446" x2="446" y1="198.64" y2="296.01" stroke="#191919"/>
+<line x1="446" x2="93.5" y1="296.01" y2="296.01" stroke="#191919"/>
+<line x1="93.5" x2="93.5" y1="296.01" y2="311.01" stroke="#191919"/>
+<polygon points="89.5 301.01 93.5 311.01 97.5 301.01 93.5 305.01" fill="#191919" stroke="#191919"/>
+<line x1="363.5" x2="363.5" y1="166.64" y2="186.64" stroke="#191919"/>
+<polygon points="359.5 176.64 363.5 186.64 367.5 176.64 363.5 180.64" fill="#191919" stroke="#191919"/>
+<line x1="680.5" x2="904" y1="430.94" y2="430.94" stroke="#191919"/>
+<polygon points="900 488.83 904 498.83 908 488.83 904 492.83" fill="#191919" stroke="#191919"/>
+<line x1="904" x2="904" y1="430.94" y2="543.32" stroke="#191919"/>
+<polygon points="900 533.32 904 543.32 908 533.32 904 537.32" fill="#191919" stroke="#191919"/>
+<line x1="656.5" x2="656.5" y1="398.94" y2="418.94" stroke="#191919"/>
+<polygon points="652.5 408.94 656.5 418.94 660.5 408.94 656.5 412.94" fill="#191919" stroke="#191919"/>
+<line x1="568" x2="568" y1="1124.3" y2="1156.8" stroke="#181818" stroke-width=".88559"/>
+<polygon points="564 1151.3 568 1161.3 572 1151.3 568 1155.3" fill="#181818" stroke="#181818"/>
+<line x1="928" x2="1109.5" y1="609.28" y2="609.28" stroke="#191919"/>
+<polygon points="1105.5 703.62 1109.5 713.62 1113.5 703.62 1109.5 707.62" fill="#191919" stroke="#191919"/>
+<line x1="1109.5" x2="1109.5" y1="609.28" y2="799.58" stroke="#191919"/>
+<polygon points="1105.5 789.58 1109.5 799.58 1113.5 789.58 1109.5 793.58" fill="#191919" stroke="#191919"/>
+<line x1="904" x2="904" y1="577.28" y2="597.28" stroke="#191919"/>
+<polygon points="900 587.28 904 597.28 908 587.28 904 591.28" fill="#191919" stroke="#191919"/>
+<line x1="1133.5" x2="1211" y1="865.55" y2="865.55" stroke="#191919"/>
+<polygon points="1207 982.62 1211 992.62 1215 982.62 1211 986.62" fill="#191919" stroke="#191919"/>
+<line x1="1211" x2="1211" y1="865.55" y2="1098.8" stroke="#191919"/>
+<line x1="1211" x2="656.5" y1="1098.8" y2="1098.8" stroke="#191919"/>
+<line x1="656.5" x2="656.5" y1="1098.3" y2="1115.8" stroke="#191919" stroke-width="1.0794"/>
+<polygon transform="translate(0 8.1941)" points="656.5 1113.8 660.5 1103.8 656.5 1107.8 652.5 1103.8" fill="#191919" stroke="#191919"/>
+<line x1="1109.5" x2="1109.5" y1="833.55" y2="853.55" stroke="#191919"/>
+<polygon points="1105.5 843.55 1109.5 853.55 1113.5 843.55 1109.5 847.55" fill="#191919" stroke="#191919"/>
+<line x1="93.5" x2="93.5" y1="112.67" y2="117.67" stroke="#191919"/>
+<line x1="93.5" x2="363.5" y1="117.67" y2="117.67" stroke="#191919"/>
+<line x1="363.5" x2="363.5" y1="117.67" y2="132.67" stroke="#191919"/>
+<polygon points="359.5 122.67 363.5 132.67 367.5 122.67 363.5 126.67" fill="#191919" stroke="#191919"/>
+<line x1="363.5" x2="363.5" y1="210.64" y2="222.84" stroke="#191919"/>
+<line x1="363.5" x2="93.5" y1="222.84" y2="222.84" stroke="#191919"/>
+<line x1="93.5" x2="93.5" y1="222.84" y2="235.04" stroke="#191919"/>
+<polygon points="89.5 225.04 93.5 235.04 97.5 225.04 93.5 229.04" fill="#191919" stroke="#191919"/>
+<line x1="93.5" x2="93.5" y1="344.98" y2="349.98" stroke="#191919"/>
+<line x1="93.5" x2="656.5" y1="349.98" y2="349.98" stroke="#191919"/>
+<line x1="656.5" x2="656.5" y1="349.98" y2="364.98" stroke="#191919"/>
+<polygon points="652.5 354.98 656.5 364.98 660.5 354.98 656.5 358.98" fill="#191919" stroke="#191919"/>
+<line x1="656.5" x2="656.5" y1="442.94" y2="455.15" stroke="#191919"/>
+<line x1="656.5" x2="93.5" y1="455.15" y2="455.15" stroke="#191919"/>
+<line x1="93.5" x2="93.5" y1="455.15" y2="467.35" stroke="#191919"/>
+<polygon points="89.5 457.35 93.5 467.35 97.5 457.35 93.5 461.35" fill="#191919" stroke="#191919"/>
+<line x1="656.5" x2="656.5" y1="693.62" y2="706.11" stroke="#191919"/>
+<line x1="656.5" x2="93.5" y1="706.11" y2="706.11" stroke="#191919"/>
+<line x1="93.5" x2="93.5" y1="706.11" y2="723.61" stroke="#191919"/>
+<polygon points="89.5 713.61 93.5 723.61 97.5 713.61 93.5 717.61" fill="#191919" stroke="#191919"/>
+<line x1="904" x2="904" y1="621.28" y2="633.49" stroke="#191919"/>
+<line x1="904" x2="656.5" y1="633.49" y2="633.49" stroke="#191919"/>
+<line x1="656.5" x2="656.5" y1="633.49" y2="645.69" stroke="#191919"/>
+<polygon points="652.5 635.69 656.5 645.69 660.5 635.69 656.5 639.69" fill="#191919" stroke="#191919"/>
+<line x1="904" x2="904" y1="949.89" y2="954.89" stroke="#191919"/>
+<line x1="904" x2="656.5" y1="954.89" y2="954.89" stroke="#191919"/>
+<line x1="656.5" x2="656.5" y1="954.89" y2="969.89" stroke="#191919"/>
+<polygon points="652.5 959.89 656.5 969.89 660.5 959.89 656.5 963.89" fill="#191919" stroke="#191919"/>
+<line x1="656.5" x2="656.5" y1="1017.8" y2="1022.8" stroke="#191919"/>
+<line x1="656.5" x2="93.5" y1="1022.8" y2="1022.8" stroke="#191919"/>
+<line x1="93.5" x2="93.5" y1="1022.8" y2="1037.8" stroke="#191919"/>
+<polygon points="89.5 1027.8 93.5 1037.8 97.5 1027.8 93.5 1031.8" fill="#191919" stroke="#191919"/>
+<line x1="1109.5" x2="1109.5" y1="877.55" y2="889.75" stroke="#191919"/>
+<line x1="1109.5" x2="904" y1="889.75" y2="889.75" stroke="#191919"/>
+<line x1="904" x2="904" y1="889.75" y2="901.95" stroke="#191919"/>
+<polygon points="900 891.95 904 901.95 908 891.95 904 895.95" fill="#191919" stroke="#191919"/>
+<line x1="657.13" x2="192.5" y1="1123.8" y2="1123.8" stroke="#191919" stroke-width=".90845"/>
+<line x1="192.5" x2="192.5" y1="1123.3" y2="1166.1" stroke="#191919" stroke-width="1.6355"/>
+<polygon transform="translate(0 31.666)" points="192.5 1139.8 196.5 1129.8 192.5 1133.8 188.5 1129.8" fill="#191919" stroke="#191919"/>
+<text x="117" y="29.4531" fill="#000000" font-family="sans-serif" font-size="18" textLength="52">Order</text>
+<text x="334" y="29.4531" fill="#000000" font-family="sans-serif" font-size="18" textLength="68">Product</text>
+<text x="582.25" y="29.4531" fill="#000000" font-family="sans-serif" font-size="18" textLength="100">Warehouse</text>
+<text x="869.75" y="29.4531" fill="#000000" font-family="sans-serif" font-size="18" textLength="76">Shipping</text>
+<text x="1084" y="29.4531" fill="#000000" font-family="sans-serif" font-size="18" textLength="78">Payment</text>
+</svg>

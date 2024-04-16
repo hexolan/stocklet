@@ -1,0 +1,63 @@
+services:
+  # Services
+  auth-service:
+    ports:
+      - 91:90
+      - 9091:9090
+      
+  order-service:
+    ports:
+      - 92:90
+      - 9092:9090
+      
+  payment-service:
+    ports:
+      - 93:90
+      - 9093:9090
+      
+  product-service:
+    ports:
+      - 94:90
+      - 9094:9090
+      
+  shipping-service:
+    ports:
+      - 95:90
+      - 9095:9090
+      
+  user-service:
+    ports:
+      - 96:90
+      - 9096:9090
+      
+  warehouse-service:
+    ports:
+      - 97:90
+      - 9097:9090
+
+  # Development Utilities
+  dev-kafka-ui:
+    image: provectuslabs/kafka-ui:latest
+    restart: unless-stopped
+    environment:
+      KAFKA_CLUSTERS_0_NAME: "kafka"
+      KAFKA_CLUSTERS_0_BOOTSTRAPSERVERS: "kafka:19092"
+      DYNAMIC_CONFIG_ENABLED: "true"
+    ports:
+      - 8080:8080
+    networks:
+      - stocklet-network
+
+  dev-adminer:
+    image: adminer:latest
+    restart: unless-stopped
+    ports:
+      - 8081:8080
+    networks:
+      - stocklet-auth-network
+      - stocklet-order-network
+      - stocklet-payment-network
+      - stocklet-product-network
+      - stocklet-shipping-network
+      - stocklet-user-network
+      - stocklet-warehouse-network

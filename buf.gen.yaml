@@ -1,0 +1,23 @@
+version: v1
+plugins:
+  - plugin: buf.build/protocolbuffers/go:v1.31.0
+    out: internal/pkg/protogen
+    opt:
+      - paths=import
+      - module=github.com/hexolan/stocklet/internal/pkg/protogen
+  - plugin: buf.build/grpc/go:v1.3.0
+    out: internal/pkg/protogen
+    opt:
+      - paths=import
+      - module=github.com/hexolan/stocklet/internal/pkg/protogen
+  - plugin: buf.build/grpc-ecosystem/gateway:v2.18.0
+    out: internal/pkg/protogen
+    opt: 
+      - paths=import
+      - module=github.com/hexolan/stocklet/internal/pkg/protogen
+  - plugin: buf.build/grpc-ecosystem/openapiv2:v2.18.0
+    out: schema/openapi
+    opt:
+      - output_format=yaml
+      - allow_merge=true
+      - merge_file_name=services

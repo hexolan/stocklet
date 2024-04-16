@@ -1,0 +1,126 @@
+// Copyright (C) 2024 Declan Teevan
+//
+// This program is free software: you can redistribute it and/or modify
+// it under the terms of the GNU Affero General Public License as published by
+// the Free Software Foundation, either version 3 of the License, or
+// (at your option) any later version.
+//
+// This program is distributed in the hope that it will be useful,
+// but WITHOUT ANY WARRANTY; without even the implied warranty of
+// MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+// GNU Affero General Public License for more details.
+//
+// You should have received a copy of the GNU Affero General Public License
+// along with this program.  If not, see <https://www.gnu.org/licenses/>.
+
+syntax = "proto3";
+
+package stocklet.order.v1;
+
+import "buf/validate/validate.proto";
+import "google/api/annotations.proto";
+import "google/api/visibility.proto";
+import "google/protobuf/empty.proto";
+import "stocklet/common/v1/requests.proto";
+import "stocklet/events/v1/payment.proto";
+import "stocklet/events/v1/product.proto";
+import "stocklet/events/v1/shipping.proto";
+import "stocklet/events/v1/warehouse.proto";
+import "stocklet/order/v1/types.proto";
+
+option go_package = "github.com/hexolan/stocklet/internal/pkg/protogen/order/v1;order_v1";
+
+service OrderService {
+  // View information about the service.
+  //
+  // buf:lint:ignore RPC_REQUEST_RESPONSE_UNIQUE
+  rpc ServiceInfo(stocklet.common.v1.ServiceInfoRequest) returns (stocklet.common.v1.ServiceInfoResponse) {
+    option (google.api.http) = {get: "/v1/order/service"};
+  }
+
+  rpc ViewOrder(ViewOrderRequest) returns (ViewOrderResponse) {
+    option (google.api.http) = {get: "/v1/order/orders/{order_id}"};
+  }
+
+  // Get a list of a customer's orders.
+  // If accessed through the gateway - shows the current user's orders.
+  rpc ViewOrders(ViewOrdersRequest) returns (ViewOrdersResponse) {
+    option (google.api.http) = {get: "/v1/order/list"};
+  }
+
+  rpc PlaceOrder(PlaceOrderRequest) returns (PlaceOrderResponse) {
+    option (google.api.http) = {
+      post: "/v1/order/place"
+      body: "cart"
+    };
+  }
+
+  // A consumer will call this method to process events.
+  //
+  // buf:lint:ignore RPC_REQUEST_RESPONSE_UNIQUE
+  // buf:lint:ignore RPC_REQUEST_STANDARD_NAME
+  // buf:lint:ignore RPC_RESPONSE_STANDARD_NAME
+  rpc ProcessProductPriceQuoteEvent(stocklet.events.v1.ProductPriceQuoteEvent) returns (google.protobuf.Empty) {
+    option (google.api.method_visibility).restriction = "INTERNAL";
+  }
+
+  // A consumer will call this method to process events.
+  //
+  // buf:lint:ignore RPC_REQUEST_RESPONSE_UNIQUE
+  // buf:lint:ignore RPC_REQUEST_STANDARD_NAME
+  // buf:lint:ignore RPC_RESPONSE_STANDARD_NAME
+  rpc ProcessStockReservationEvent(stocklet.events.v1.StockReservationEvent) returns (google.protobuf.Empty) {
+    option (google.api.method_visibility).restriction = "INTERNAL";
+  }
+
+  // A consumer will call this method to process events.
+  //
+  // buf:lint:ignore RPC_REQUEST_RESPONSE_UNIQUE
+  // buf:lint:ignore RPC_REQUEST_STANDARD_NAME
+  // buf:lint:ignore RPC_RESPONSE_STANDARD_NAME
+  rpc ProcessShipmentAllocationEvent(stocklet.events.v1.ShipmentAllocationEvent) returns (google.protobuf.Empty) {
+    option (google.api.method_visibility).restriction = "INTERNAL";
+  }
+
+  // A consumer will call this method to process events.
+  //
+  // buf:lint:ignore RPC_REQUEST_RESPONSE_UNIQUE
+  // buf:lint:ignore RPC_REQUEST_STANDARD_NAME
+  // buf:lint:ignore RPC_RESPONSE_STANDARD_NAME
+  rpc ProcessPaymentProcessedEvent(stocklet.events.v1.PaymentProcessedEvent) returns (google.protobuf.Empty) {
+    option (google.api.method_visibility).restriction = "INTERNAL";
+  }
+}
+
+message ViewOrderRequest {
+  string order_id = 1 [(buf.validate.field).string.min_len = 1];
+}
+
+message ViewOrderResponse {
+  Order order = 1;
+}
+
+message ViewOrdersRequest {
+  string customer_id = 1 [(buf.validate.field).string.min_len = 1];
+}
+
+message ViewOrdersResponse {
+  repeated Order orders = 1;
+}
+
+message GetOrderItemsRequest {
+  string id = 1 [(buf.validate.field).string.min_len = 1];
+}
+
+message GetOrderItemsResponse {
+  map<string, int32> items = 1 [(buf.validate.field).map.values.int32.gt = 0];
+}
+
+message PlaceOrderRequest {
+  map<string, int32> cart = 1 [(buf.validate.field).map.values.int32.gt = 0];
+  string customer_id = 2;
+}
+
+message PlaceOrderResponse {
+  Order order = 1;
+}

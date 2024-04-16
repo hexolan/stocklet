@@ -1,0 +1,68 @@
+// Copyright (C) 2024 Declan Teevan
+//
+// This program is free software: you can redistribute it and/or modify
+// it under the terms of the GNU Affero General Public License as published by
+// the Free Software Foundation, either version 3 of the License, or
+// (at your option) any later version.
+//
+// This program is distributed in the hope that it will be useful,
+// but WITHOUT ANY WARRANTY; without even the implied warranty of
+// MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+// GNU Affero General Public License for more details.
+//
+// You should have received a copy of the GNU Affero General Public License
+// along with this program.  If not, see <https://www.gnu.org/licenses/>.
+
+syntax = "proto3";
+
+package stocklet.product.v1;
+
+import "buf/validate/validate.proto";
+import "google/api/annotations.proto";
+import "google/api/visibility.proto";
+import "google/protobuf/empty.proto";
+import "stocklet/common/v1/requests.proto";
+import "stocklet/events/v1/order.proto";
+import "stocklet/product/v1/types.proto";
+
+option go_package = "github.com/hexolan/stocklet/internal/pkg/protogen/product/v1;product_v1";
+
+service ProductService {
+  // View information about the service.
+  //
+  // buf:lint:ignore RPC_REQUEST_RESPONSE_UNIQUE
+  rpc ServiceInfo(stocklet.common.v1.ServiceInfoRequest) returns (stocklet.common.v1.ServiceInfoResponse) {
+    option (google.api.http) = {get: "/v1/product/service"};
+  }
+
+  rpc ViewProduct(ViewProductRequest) returns (ViewProductResponse) {
+    option (google.api.http) = {get: "/v1/product/{id}"};
+  }
+
+  rpc ViewProducts(ViewProductsRequest) returns (ViewProductsResponse) {
+    option (google.api.http) = {get: "/v1/product/list"};
+  }
+
+  // A consumer will call this method to process events.
+  //
+  // buf:lint:ignore RPC_REQUEST_RESPONSE_UNIQUE
+  // buf:lint:ignore RPC_REQUEST_STANDARD_NAME
+  // buf:lint:ignore RPC_RESPONSE_STANDARD_NAME
+  rpc ProcessOrderCreatedEvent(stocklet.events.v1.OrderCreatedEvent) returns (google.protobuf.Empty) {
+    option (google.api.method_visibility).restriction = "INTERNAL";
+  }
+}
+
+message ViewProductRequest {
+  string id = 1 [(buf.validate.field).string.min_len = 1];
+}
+
+message ViewProductResponse {
+  Product product = 1;
+}
+
+message ViewProductsRequest {}
+
+message ViewProductsResponse {
+  repeated Product products = 1;
+}

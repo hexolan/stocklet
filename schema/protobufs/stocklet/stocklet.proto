@@ -1,0 +1,39 @@
+// Copyright (C) 2024 Declan Teevan
+//
+// This program is free software: you can redistribute it and/or modify
+// it under the terms of the GNU Affero General Public License as published by
+// the Free Software Foundation, either version 3 of the License, or
+// (at your option) any later version.
+//
+// This program is distributed in the hope that it will be useful,
+// but WITHOUT ANY WARRANTY; without even the implied warranty of
+// MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+// GNU Affero General Public License for more details.
+//
+// You should have received a copy of the GNU Affero General Public License
+// along with this program.  If not, see <https://www.gnu.org/licenses/>.
+
+syntax = "proto3";
+
+// buf:lint:ignore PACKAGE_VERSION_SUFFIX
+package stocklet;
+
+import "protoc-gen-openapiv2/options/annotations.proto";
+
+option go_package = "github.com/hexolan/stocklet/internal/pkg/protogen";
+option (grpc.gateway.protoc_gen_openapiv2.options.openapiv2_swagger) = {
+  info: {
+    title: "Stocklet";
+    version: "0.1.0";
+    contact: {
+      name: "GitHub Repository";
+      url: "https://github.com/hexolan/stocklet";
+    };
+    license: {
+      name: "AGPL-3.0";
+      url: "https://github.com/hexolan/stocklet/blob/main/LICENSE";
+    }
+  };
+  host: "localhost";
+  schemes: HTTP;
+};

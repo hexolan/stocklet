@@ -1,0 +1,81 @@
+' Copyright (C) 2024 Declan Teevan
+'
+' This program is free software: you can redistribute it and/or modify
+' it under the terms of the GNU Affero General Public License as published by
+' the Free Software Foundation, either version 3 of the License, or
+' (at your option) any later version.
+'
+' This program is distributed in the hope that it will be useful,
+' but WITHOUT ANY WARRANTY; without even the implied warranty of
+' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+' GNU Affero General Public License for more details.
+'
+' You should have received a copy of the GNU Affero General Public License
+' along with this program.  If not, see <https://www.gnu.org/licenses/>.
+
+@startuml placeordersaga
+!theme mars
+
+|Order|
+start
+:OrderCreatedEvent;
+
+|Product|
+:ProductPriceQuoteEvent;
+if (type) is (<color:red>UNAVALIABLE) then
+  |Order|
+  :<color:red>OrderRejectedEvent;
+  kill
+else (<color:green>AVALIABLE)
+endif
+
+|Order|
+:OrderPendingEvent;
+
+|Warehouse|
+:StockReservationEvent;
+if (type) is (<color:red>INSUFFICIENT_STOCK) then
+  |Order|
+  :<color:red>OrderRejectedEvent;
+  kill
+else (<color:green>STOCK_RESERVED)
+endif
+
+|Shipping|
+:ShipmentAllocationEvent;
+if (type) is (<color:red>FAILED) then
+  |Warehouse|
+  :StockReservationEvent\n<color:grey>type: STOCK_RETURNED;
+
+  |Order|
+  :<color:red>OrderRejectedEvent;
+  kill
+else (<color:green>ALLOCATED)
+endif
+
+|Payment|
+:PaymentProcessedEvent;
+if (type) is (<color:red>FAILED) then
+  |Shipping|
+  :ShipmentAllocationEvent\n<color:grey>type: ALLOCATION_RELEASED;
+
+  |Warehouse|
+  :StockReservationEvent\n<color:grey>type: STOCK_RETURNED;
+
+  |Order|
+  :<color:red>OrderRejectedEvent;
+  kill
+else (<color:green>SUCCESS)
+endif
+
+fork
+  |Warehouse|
+  :StockReservationEvent\n<color:grey>type: STOCK_CONSUMED;
+  kill
+fork again
+  |Order|
+  :<color:green>OrderApprovedEvent;
+  stop
+end merge
+
+@enduml

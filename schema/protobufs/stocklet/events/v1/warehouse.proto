@@ -1,0 +1,75 @@
+// Copyright (C) 2024 Declan Teevan
+//
+// This program is free software: you can redistribute it and/or modify
+// it under the terms of the GNU Affero General Public License as published by
+// the Free Software Foundation, either version 3 of the License, or
+// (at your option) any later version.
+//
+// This program is distributed in the hope that it will be useful,
+// but WITHOUT ANY WARRANTY; without even the implied warranty of
+// MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+// GNU Affero General Public License for more details.
+//
+// You should have received a copy of the GNU Affero General Public License
+// along with this program.  If not, see <https://www.gnu.org/licenses/>.
+
+syntax = "proto3";
+
+package stocklet.events.v1;
+
+option go_package = "github.com/hexolan/stocklet/internal/pkg/protogen/events/v1;events_v1";
+
+message StockCreatedEvent {
+  int32 revision = 1;
+
+  string product_id = 2;
+  int32 quantity = 3;
+}
+
+message StockAddedEvent {
+  int32 revision = 1;
+
+  string product_id = 2;
+  int32 amount = 3;
+
+  // If the stock is returned as a result of a stock reservation outcome,
+  // then the reservation id will be included for reference.
+  optional string reservation_id = 4;
+}
+
+message StockRemovedEvent {
+  int32 revision = 1;
+
+  string product_id = 2;
+  int32 amount = 3;
+
+  // If the stock is removed as a result of a stock reservation being closed,
+  // then the reservation id will be included for reference.
+  optional string reservation_id = 4;
+}
+
+message StockReservationEvent {
+  enum Type {
+    TYPE_UNSPECIFIED = 0;
+    TYPE_INSUFFICIENT_STOCK = 1;
+    TYPE_STOCK_RESERVED = 2;
+    TYPE_STOCK_RETURNED = 3;
+    TYPE_STOCK_CONSUMED = 4;
+  }
+
+  int32 revision = 1;
+  Type type = 2;
+
+  message OrderMetadata {
+    string customer_id = 1;
+    float items_price = 2;
+    float total_price = 3;
+  }
+
+  string order_id = 3;
+  OrderMetadata order_metadata = 4;
+
+  string reservation_id = 5; // provided with type enum value 2+
+  map<string, int32> reservation_stock = 6; // Product ID: Quantity (provided with type enum value 2+)
+  repeated string insufficient_stock = 7; // Product IDs (only provided with TYPE_INSUFFICIENT_STOCK)
+}

@@ -1,0 +1,781 @@
+swagger: "2.0"
+info:
+  title: Stocklet
+  version: 0.1.0
+  contact:
+    name: GitHub Repository
+    url: https://github.com/hexolan/stocklet
+  license:
+    name: AGPL-3.0
+    url: https://github.com/hexolan/stocklet/blob/main/LICENSE
+tags:
+  - name: AuthService
+  - name: OrderService
+  - name: PaymentService
+  - name: ProductService
+  - name: ShippingService
+  - name: UserService
+  - name: WarehouseService
+host: localhost
+schemes:
+  - http
+consumes:
+  - application/json
+produces:
+  - application/json
+paths:
+  /v1/auth/jwks:
+    get:
+      operationId: AuthService_GetJwks
+      responses:
+        "200":
+          description: A successful response.
+          schema:
+            $ref: '#/definitions/v1GetJwksResponse'
+        default:
+          description: An unexpected error response.
+          schema:
+            $ref: '#/definitions/rpcStatus'
+      tags:
+        - AuthService
+  /v1/auth/login:
+    post:
+      operationId: AuthService_LoginPassword
+      responses:
+        "200":
+          description: A successful response.
+          schema:
+            $ref: '#/definitions/v1LoginPasswordResponse'
+        default:
+          description: An unexpected error response.
+          schema:
+            $ref: '#/definitions/rpcStatus'
+      parameters:
+        - name: body
+          in: body
+          required: true
+          schema:
+            $ref: '#/definitions/v1LoginPasswordRequest'
+      tags:
+        - AuthService
+  /v1/auth/password:
+    post:
+      operationId: AuthService_SetPassword
+      responses:
+        "200":
+          description: A successful response.
+          schema:
+            $ref: '#/definitions/v1SetPasswordResponse'
+        default:
+          description: An unexpected error response.
+          schema:
+            $ref: '#/definitions/rpcStatus'
+      parameters:
+        - name: body
+          in: body
+          required: true
+          schema:
+            $ref: '#/definitions/v1SetPasswordRequest'
+      tags:
+        - AuthService
+  /v1/auth/service:
+    get:
+      summary: View information about the service.
+      description: buf:lint:ignore RPC_REQUEST_RESPONSE_UNIQUE
+      operationId: AuthService_ServiceInfo
+      responses:
+        "200":
+          description: A successful response.
+          schema:
+            $ref: '#/definitions/v1ServiceInfoResponse'
+        default:
+          description: An unexpected error response.
+          schema:
+            $ref: '#/definitions/rpcStatus'
+      tags:
+        - AuthService
+  /v1/order/list:
+    get:
+      summary: |-
+        Get a list of a customer's orders.
+        If accessed through the gateway - shows the current user's orders.
+      operationId: OrderService_ViewOrders
+      responses:
+        "200":
+          description: A successful response.
+          schema:
+            $ref: '#/definitions/v1ViewOrdersResponse'
+        default:
+          description: An unexpected error response.
+          schema:
+            $ref: '#/definitions/rpcStatus'
+      parameters:
+        - name: customerId
+          in: query
+          required: false
+          type: string
+      tags:
+        - OrderService
+  /v1/order/orders/{orderId}:
+    get:
+      operationId: OrderService_ViewOrder
+      responses:
+        "200":
+          description: A successful response.
+          schema:
+            $ref: '#/definitions/v1ViewOrderResponse'
+        default:
+          description: An unexpected error response.
+          schema:
+            $ref: '#/definitions/rpcStatus'
+      parameters:
+        - name: orderId
+          in: path
+          required: true
+          type: string
+      tags:
+        - OrderService
+  /v1/order/place:
+    post:
+      operationId: OrderService_PlaceOrder
+      responses:
+        "200":
+          description: A successful response.
+          schema:
+            $ref: '#/definitions/v1PlaceOrderResponse'
+        default:
+          description: An unexpected error response.
+          schema:
+            $ref: '#/definitions/rpcStatus'
+      parameters:
+        - name: cart
+          in: body
+          required: true
+          schema:
+            type: object
+            additionalProperties:
+              type: integer
+              format: int32
+        - name: customerId
+          in: query
+          required: false
+          type: string
+      tags:
+        - OrderService
+  /v1/order/service:
+    get:
+      summary: View information about the service.
+      description: buf:lint:ignore RPC_REQUEST_RESPONSE_UNIQUE
+      operationId: OrderService_ServiceInfo
+      responses:
+        "200":
+          description: A successful response.
+          schema:
+            $ref: '#/definitions/v1ServiceInfoResponse'
+        default:
+          description: An unexpected error response.
+          schema:
+            $ref: '#/definitions/rpcStatus'
+      tags:
+        - OrderService
+  /v1/payment/balance/{customerId}:
+    get:
+      operationId: PaymentService_ViewBalance
+      responses:
+        "200":
+          description: A successful response.
+          schema:
+            $ref: '#/definitions/v1ViewBalanceResponse'
+        default:
+          description: An unexpected error response.
+          schema:
+            $ref: '#/definitions/rpcStatus'
+      parameters:
+        - name: customerId
+          in: path
+          required: true
+          type: string
+      tags:
+        - PaymentService
+  /v1/payment/service:
+    get:
+      summary: View information about the service.
+      description: buf:lint:ignore RPC_REQUEST_RESPONSE_UNIQUE
+      operationId: PaymentService_ServiceInfo
+      responses:
+        "200":
+          description: A successful response.
+          schema:
+            $ref: '#/definitions/v1ServiceInfoResponse'
+        default:
+          description: An unexpected error response.
+          schema:
+            $ref: '#/definitions/rpcStatus'
+      tags:
+        - PaymentService
+  /v1/payment/transaction/{transactionId}:
+    get:
+      operationId: PaymentService_ViewTransaction
+      responses:
+        "200":
+          description: A successful response.
+          schema:
+            $ref: '#/definitions/v1ViewTransactionResponse'
+        default:
+          description: An unexpected error response.
+          schema:
+            $ref: '#/definitions/rpcStatus'
+      parameters:
+        - name: transactionId
+          in: path
+          required: true
+          type: string
+      tags:
+        - PaymentService
+  /v1/product/list:
+    get:
+      operationId: ProductService_ViewProducts
+      responses:
+        "200":
+          description: A successful response.
+          schema:
+            $ref: '#/definitions/v1ViewProductsResponse'
+        default:
+          description: An unexpected error response.
+          schema:
+            $ref: '#/definitions/rpcStatus'
+      tags:
+        - ProductService
+  /v1/product/service:
+    get:
+      summary: View information about the service.
+      description: buf:lint:ignore RPC_REQUEST_RESPONSE_UNIQUE
+      operationId: ProductService_ServiceInfo
+      responses:
+        "200":
+          description: A successful response.
+          schema:
+            $ref: '#/definitions/v1ServiceInfoResponse'
+        default:
+          description: An unexpected error response.
+          schema:
+            $ref: '#/definitions/rpcStatus'
+      tags:
+        - ProductService
+  /v1/product/{id}:
+    get:
+      operationId: ProductService_ViewProduct
+      responses:
+        "200":
+          description: A successful response.
+          schema:
+            $ref: '#/definitions/v1ViewProductResponse'
+        default:
+          description: An unexpected error response.
+          schema:
+            $ref: '#/definitions/rpcStatus'
+      parameters:
+        - name: id
+          in: path
+          required: true
+          type: string
+      tags:
+        - ProductService
+  /v1/shipping/service:
+    get:
+      summary: View information about the service.
+      description: buf:lint:ignore RPC_REQUEST_RESPONSE_UNIQUE
+      operationId: ShippingService_ServiceInfo
+      responses:
+        "200":
+          description: A successful response.
+          schema:
+            $ref: '#/definitions/v1ServiceInfoResponse'
+        default:
+          description: An unexpected error response.
+          schema:
+            $ref: '#/definitions/rpcStatus'
+      tags:
+        - ShippingService
+  /v1/shipping/shipment/{shipmentId}:
+    get:
+      operationId: ShippingService_ViewShipment
+      responses:
+        "200":
+          description: A successful response.
+          schema:
+            $ref: '#/definitions/v1ViewShipmentResponse'
+        default:
+          description: An unexpected error response.
+          schema:
+            $ref: '#/definitions/rpcStatus'
+      parameters:
+        - name: shipmentId
+          in: path
+          required: true
+          type: string
+      tags:
+        - ShippingService
+  /v1/shipping/shipment/{shipmentId}/manifest:
+    get:
+      operationId: ShippingService_ViewShipmentManifest
+      responses:
+        "200":
+          description: A successful response.
+          schema:
+            $ref: '#/definitions/v1ViewShipmentManifestResponse'
+        default:
+          description: An unexpected error response.
+          schema:
+            $ref: '#/definitions/rpcStatus'
+      parameters:
+        - name: shipmentId
+          in: path
+          required: true
+          type: string
+      tags:
+        - ShippingService
+  /v1/user/register:
+    post:
+      operationId: UserService_RegisterUser
+      responses:
+        "200":
+          description: A successful response.
+          schema:
+            $ref: '#/definitions/v1RegisterUserResponse'
+        default:
+          description: An unexpected error response.
+          schema:
+            $ref: '#/definitions/rpcStatus'
+      parameters:
+        - name: firstName
+          in: query
+          required: true
+          type: string
+        - name: lastName
+          in: query
+          required: true
+          type: string
+        - name: email
+          in: query
+          required: true
+          type: string
+        - name: password
+          in: query
+          required: true
+          type: string
+      tags:
+        - UserService
+  /v1/user/service:
+    get:
+      summary: View information about the service.
+      description: buf:lint:ignore RPC_REQUEST_RESPONSE_UNIQUE
+      operationId: UserService_ServiceInfo
+      responses:
+        "200":
+          description: A successful response.
+          schema:
+            $ref: '#/definitions/v1ServiceInfoResponse'
+        default:
+          description: An unexpected error response.
+          schema:
+            $ref: '#/definitions/rpcStatus'
+      tags:
+        - UserService
+  /v1/user/users/{id}:
+    get:
+      operationId: UserService_ViewUser
+      responses:
+        "200":
+          description: A successful response.
+          schema:
+            $ref: '#/definitions/v1ViewUserResponse'
+        default:
+          description: An unexpected error response.
+          schema:
+            $ref: '#/definitions/rpcStatus'
+      parameters:
+        - name: id
+          in: path
+          required: true
+          type: string
+      tags:
+        - UserService
+  /v1/warehouse/product/{productId}:
+    get:
+      operationId: WarehouseService_ViewProductStock
+      responses:
+        "200":
+          description: A successful response.
+          schema:
+            $ref: '#/definitions/v1ViewProductStockResponse'
+        default:
+          description: An unexpected error response.
+          schema:
+            $ref: '#/definitions/rpcStatus'
+      parameters:
+        - name: productId
+          in: path
+          required: true
+          type: string
+      tags:
+        - WarehouseService
+  /v1/warehouse/reservation/{reservationId}:
+    get:
+      operationId: WarehouseService_ViewReservation
+      responses:
+        "200":
+          description: A successful response.
+          schema:
+            $ref: '#/definitions/v1ViewReservationResponse'
+        default:
+          description: An unexpected error response.
+          schema:
+            $ref: '#/definitions/rpcStatus'
+      parameters:
+        - name: reservationId
+          in: path
+          required: true
+          type: string
+      tags:
+        - WarehouseService
+  /v1/warehouse/service:
+    get:
+      summary: View information about the service.
+      description: buf:lint:ignore RPC_REQUEST_RESPONSE_UNIQUE
+      operationId: WarehouseService_ServiceInfo
+      responses:
+        "200":
+          description: A successful response.
+          schema:
+            $ref: '#/definitions/v1ServiceInfoResponse'
+        default:
+          description: An unexpected error response.
+          schema:
+            $ref: '#/definitions/rpcStatus'
+      tags:
+        - WarehouseService
+definitions:
+  protobufAny:
+    type: object
+    properties:
+      '@type':
+        type: string
+    additionalProperties: {}
+  rpcStatus:
+    type: object
+    properties:
+      code:
+        type: integer
+        format: int32
+      message:
+        type: string
+      details:
+        type: array
+        items:
+          type: object
+          $ref: '#/definitions/protobufAny'
+  v1AuthToken:
+    type: object
+    properties:
+      tokenType:
+        type: string
+      accessToken:
+        type: string
+      expiresIn:
+        type: string
+        format: int64
+  v1CustomerBalance:
+    type: object
+    properties:
+      customerId:
+        type: string
+      balance:
+        type: number
+        format: float
+  v1GetJwksResponse:
+    type: object
+    properties:
+      keys:
+        type: array
+        items:
+          type: object
+          $ref: '#/definitions/v1PublicEcJWK'
+  v1LoginPasswordRequest:
+    type: object
+    properties:
+      userId:
+        type: string
+      password:
+        type: string
+    required:
+      - userId
+      - password
+  v1LoginPasswordResponse:
+    type: object
+    properties:
+      detail:
+        type: string
+      data:
+        $ref: '#/definitions/v1AuthToken'
+  v1Order:
+    type: object
+    properties:
+      id:
+        type: string
+      status:
+        $ref: '#/definitions/v1OrderStatus'
+      items:
+        type: object
+        additionalProperties:
+          type: integer
+          format: int32
+        description: '''items'' consists of a mapping of Product ID to Quantity.'
+      customerId:
+        type: string
+      transactionId:
+        type: string
+      shippingId:
+        type: string
+      createdAt:
+        type: string
+        format: int64
+      updatedAt:
+        type: string
+        format: int64
+  v1OrderStatus:
+    type: string
+    enum:
+      - ORDER_STATUS_UNSPECIFIED
+      - ORDER_STATUS_PROCESSING
+      - ORDER_STATUS_PENDING
+      - ORDER_STATUS_REJECTED
+      - ORDER_STATUS_APPROVED
+      - ORDER_STATUS_COMPLETED
+    default: ORDER_STATUS_UNSPECIFIED
+    title: |-
+      - ORDER_STATUS_PROCESSING: awaiting price quotes for products
+       - ORDER_STATUS_PENDING: awaiting stock allocation, shipping allotment and payment
+  v1PlaceOrderResponse:
+    type: object
+    properties:
+      order:
+        $ref: '#/definitions/v1Order'
+  v1Product:
+    type: object
+    properties:
+      id:
+        type: string
+      name:
+        type: string
+      description:
+        type: string
+      price:
+        type: number
+        format: float
+      createdAt:
+        type: string
+        format: int64
+      updatedAt:
+        type: string
+        format: int64
+  v1ProductStock:
+    type: object
+    properties:
+      productId:
+        type: string
+      quantity:
+        type: integer
+        format: int32
+  v1PublicEcJWK:
+    type: object
+    properties:
+      kty:
+        type: string
+      use:
+        type: string
+      alg:
+        type: string
+      crv:
+        type: string
+      x:
+        type: string
+      "y":
+        type: string
+  v1RegisterUserResponse:
+    type: object
+    properties:
+      user:
+        $ref: '#/definitions/v1User'
+  v1Reservation:
+    type: object
+    properties:
+      id:
+        type: string
+      orderId:
+        type: string
+      reservedStock:
+        type: array
+        items:
+          type: object
+          $ref: '#/definitions/v1ReservationStock'
+      createdAt:
+        type: string
+        format: int64
+  v1ReservationStock:
+    type: object
+    properties:
+      productId:
+        type: string
+      quantity:
+        type: integer
+        format: int32
+  v1ServiceInfoResponse:
+    type: object
+    properties:
+      name:
+        type: string
+      source:
+        type: string
+      sourceLicense:
+        type: string
+  v1SetPasswordRequest:
+    type: object
+    properties:
+      userId:
+        type: string
+      password:
+        type: string
+    required:
+      - userId
+      - password
+  v1SetPasswordResponse:
+    type: object
+    properties:
+      detail:
+        type: string
+  v1Shipment:
+    type: object
+    properties:
+      id:
+        type: string
+      orderId:
+        type: string
+      dispatched:
+        type: boolean
+      createdAt:
+        type: string
+        format: int64
+      updatedAt:
+        type: string
+        format: int64
+  v1ShipmentItem:
+    type: object
+    properties:
+      shipmentId:
+        type: string
+      productId:
+        type: string
+      quantity:
+        type: integer
+        format: int32
+  v1Transaction:
+    type: object
+    properties:
+      id:
+        type: string
+      amount:
+        type: number
+        format: float
+      orderId:
+        type: string
+      customerId:
+        type: string
+      reversedAt:
+        type: string
+        format: int64
+        description: Optional - If set, then the transaction has been refunded.
+      processedAt:
+        type: string
+        format: int64
+  v1User:
+    type: object
+    properties:
+      id:
+        type: string
+      email:
+        type: string
+      firstName:
+        type: string
+      lastName:
+        type: string
+      createdAt:
+        type: string
+        format: int64
+      updatedAt:
+        type: string
+        format: int64
+  v1ViewBalanceResponse:
+    type: object
+    properties:
+      balance:
+        $ref: '#/definitions/v1CustomerBalance'
+  v1ViewOrderResponse:
+    type: object
+    properties:
+      order:
+        $ref: '#/definitions/v1Order'
+  v1ViewOrdersResponse:
+    type: object
+    properties:
+      orders:
+        type: array
+        items:
+          type: object
+          $ref: '#/definitions/v1Order'
+  v1ViewProductResponse:
+    type: object
+    properties:
+      product:
+        $ref: '#/definitions/v1Product'
+  v1ViewProductStockResponse:
+    type: object
+    properties:
+      stock:
+        $ref: '#/definitions/v1ProductStock'
+  v1ViewProductsResponse:
+    type: object
+    properties:
+      products:
+        type: array
+        items:
+          type: object
+          $ref: '#/definitions/v1Product'
+  v1ViewReservationResponse:
+    type: object
+    properties:
+      reservation:
+        $ref: '#/definitions/v1Reservation'
+  v1ViewShipmentManifestResponse:
+    type: object
+    properties:
+      manifest:
+        type: array
+        items:
+          type: object
+          $ref: '#/definitions/v1ShipmentItem'
+  v1ViewShipmentResponse:
+    type: object
+    properties:
+      shipment:
+        $ref: '#/definitions/v1Shipment'
+  v1ViewTransactionResponse:
+    type: object
+    properties:
+      transaction:
+        $ref: '#/definitions/v1Transaction'
+  v1ViewUserResponse:
+    type: object
+    properties:
+      user:
+        $ref: '#/definitions/v1User'

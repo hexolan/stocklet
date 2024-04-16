@@ -1,0 +1,100 @@
+// Copyright (C) 2024 Declan Teevan
+//
+// This program is free software: you can redistribute it and/or modify
+// it under the terms of the GNU Affero General Public License as published by
+// the Free Software Foundation, either version 3 of the License, or
+// (at your option) any later version.
+//
+// This program is distributed in the hope that it will be useful,
+// but WITHOUT ANY WARRANTY; without even the implied warranty of
+// MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+// GNU Affero General Public License for more details.
+//
+// You should have received a copy of the GNU Affero General Public License
+// along with this program.  If not, see <https://www.gnu.org/licenses/>.
+
+syntax = "proto3";
+
+package stocklet.warehouse.v1;
+
+import "buf/validate/validate.proto";
+import "google/api/annotations.proto";
+import "google/api/visibility.proto";
+import "google/protobuf/empty.proto";
+import "stocklet/common/v1/requests.proto";
+import "stocklet/events/v1/order.proto";
+import "stocklet/events/v1/payment.proto";
+import "stocklet/events/v1/product.proto";
+import "stocklet/events/v1/shipping.proto";
+import "stocklet/warehouse/v1/types.proto";
+
+option go_package = "github.com/hexolan/stocklet/internal/pkg/protogen/warehouse/v1;warehouse_v1";
+
+service WarehouseService {
+  // View information about the service.
+  //
+  // buf:lint:ignore RPC_REQUEST_RESPONSE_UNIQUE
+  rpc ServiceInfo(stocklet.common.v1.ServiceInfoRequest) returns (stocklet.common.v1.ServiceInfoResponse) {
+    option (google.api.http) = {get: "/v1/warehouse/service"};
+  }
+
+  rpc ViewProductStock(ViewProductStockRequest) returns (ViewProductStockResponse) {
+    option (google.api.http) = {get: "/v1/warehouse/product/{product_id}"};
+  }
+
+  rpc ViewReservation(ViewReservationRequest) returns (ViewReservationResponse) {
+    option (google.api.http) = {get: "/v1/warehouse/reservation/{reservation_id}"};
+  }
+
+  // A consumer will call this method to process events.
+  //
+  // buf:lint:ignore RPC_REQUEST_RESPONSE_UNIQUE
+  // buf:lint:ignore RPC_REQUEST_STANDARD_NAME
+  // buf:lint:ignore RPC_RESPONSE_STANDARD_NAME
+  rpc ProcessProductCreatedEvent(stocklet.events.v1.ProductCreatedEvent) returns (google.protobuf.Empty) {
+    option (google.api.method_visibility).restriction = "INTERNAL";
+  }
+
+  // A consumer will call this method to process events.
+  //
+  // buf:lint:ignore RPC_REQUEST_RESPONSE_UNIQUE
+  // buf:lint:ignore RPC_REQUEST_STANDARD_NAME
+  // buf:lint:ignore RPC_RESPONSE_STANDARD_NAME
+  rpc ProcessOrderPendingEvent(stocklet.events.v1.OrderPendingEvent) returns (google.protobuf.Empty) {
+    option (google.api.method_visibility).restriction = "INTERNAL";
+  }
+
+  // A consumer will call this method to process events.
+  //
+  // buf:lint:ignore RPC_REQUEST_STANDARD_NAME
+  // buf:lint:ignore RPC_REQUEST_RESPONSE_UNIQUE
+  // buf:lint:ignore RPC_RESPONSE_STANDARD_NAME
+  rpc ProcessShipmentAllocationEvent(stocklet.events.v1.ShipmentAllocationEvent) returns (google.protobuf.Empty) {
+    option (google.api.method_visibility).restriction = "INTERNAL";
+  }
+
+  // A consumer will call this method to process events.
+  //
+  // buf:lint:ignore RPC_REQUEST_RESPONSE_UNIQUE
+  // buf:lint:ignore RPC_REQUEST_STANDARD_NAME
+  // buf:lint:ignore RPC_RESPONSE_STANDARD_NAME
+  rpc ProcessPaymentProcessedEvent(stocklet.events.v1.PaymentProcessedEvent) returns (google.protobuf.Empty) {
+    option (google.api.method_visibility).restriction = "INTERNAL";
+  }
+}
+
+message ViewProductStockRequest {
+  string product_id = 1 [(buf.validate.field).string.min_len = 1];
+}
+
+message ViewProductStockResponse {
+  ProductStock stock = 1;
+}
+
+message ViewReservationRequest {
+  string reservation_id = 1 [(buf.validate.field).string.min_len = 1];
+}
+
+message ViewReservationResponse {
+  Reservation reservation = 1;
+}
