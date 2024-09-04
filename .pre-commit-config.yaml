@@ -1,0 +1,11 @@
+repos:
+  - repo: https://github.com/dnephin/pre-commit-golang
+    rev: v0.5.1
+    hooks:
+      - id: go-fmt
+        args: [-s, -w]
+
+  - repo: https://github.com/bufbuild/buf
+    rev: v1.28.1
+    hooks:
+      - id: buf-format

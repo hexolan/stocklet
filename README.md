@@ -22,6 +22,12 @@ Any ideas, suggestions or direct contributions to better conform with general an
 * API gateway pattern using Envoy
 * Distributed transactions utilising the saga pattern
 
+## ⚠️ Notice
+
+As this project is licensed under the GNU Affero General Public License v3, [copying, templating or referencing code from this project](https://en.wikipedia.org/wiki/Clean-room_design) may violate international copyright law unless your project is using a compatible open-source license. Please ensure any implementation in your own projects is original and complies with applicable licenses and laws.
+
+In the nature of open-source software, please consider contributing and giving back to the project to help make it better for the greater community, especially if you see it as a useful learning resource.
+
 ## 🗃️ Architecture
 
 ### 🔎 Overview
