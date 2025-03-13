@@ -79,7 +79,7 @@ func (c *kafkaController) Start() {
 			case messaging.User_State_Deleted_Topic:
 				c.consumeUserDeletedEventTopic(ft)
 			default:
-				log.Warn().Str("topic", ft.Topic).Msg("consumer: recieved records from unexpected topic")
+				log.Warn().Str("topic", ft.Topic).Msg("consumer: received records from unexpected topic")
 			}
 		})
 	}
@@ -91,7 +91,7 @@ func (c *kafkaController) Stop() {
 }
 
 func (c *kafkaController) consumeUserDeletedEventTopic(ft kgo.FetchTopic) {
-	log.Info().Str("topic", ft.Topic).Msg("consumer: recieved records from topic")
+	log.Info().Str("topic", ft.Topic).Msg("consumer: received records from topic")
 
 	// Process each message from the topic
 	ft.EachRecord(func(record *kgo.Record) {

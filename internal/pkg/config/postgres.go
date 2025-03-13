@@ -80,6 +80,6 @@ func (cfg *PostgresConfig) Load() error {
 		cfg.Database = opt
 	}
 
-	// Config properties succesfully loaded
+	// Config properties successfully loaded
 	return nil
 }

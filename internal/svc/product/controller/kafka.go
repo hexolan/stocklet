@@ -84,7 +84,7 @@ func (c *kafkaController) Start() {
 			case messaging.Order_State_Created_Topic:
 				c.consumeOrderCreatedEventTopic(ft)
 			default:
-				log.Warn().Str("topic", ft.Topic).Msg("consumer: recieved records from unexpected topic")
+				log.Warn().Str("topic", ft.Topic).Msg("consumer: received records from unexpected topic")
 			}
 		})
 	}
@@ -96,7 +96,7 @@ func (c *kafkaController) Stop() {
 }
 
 func (c *kafkaController) consumeOrderCreatedEventTopic(ft kgo.FetchTopic) {
-	log.Info().Str("topic", ft.Topic).Msg("consumer: recieved records from topic")
+	log.Info().Str("topic", ft.Topic).Msg("consumer: received records from topic")
 
 	// Process each message from the topic
 	ft.EachRecord(func(record *kgo.Record) {

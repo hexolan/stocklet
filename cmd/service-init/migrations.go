@@ -39,5 +39,5 @@ func applyPostgresMigrations(conf *config.PostgresConfig) {
 		}
 	}
 
-	log.Info().Msg("migrate: succesfully performed postgres migrations")
+	log.Info().Msg("migrate: successfully performed postgres migrations")
 }

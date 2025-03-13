@@ -313,7 +313,7 @@ func (c postgresController) PaymentForOrder(ctx context.Context, orderId string,
 		evtTopic string
 	)
 	if transaction != nil {
-		// Succesful
+		// Successful
 		evt, evtTopic, err = payment.PreparePaymentProcessedEvent_Success(transaction)
 	} else {
 		// Failure
@@ -321,7 +321,7 @@ func (c postgresController) PaymentForOrder(ctx context.Context, orderId string,
 		evt, evtTopic, err = payment.PreparePaymentProcessedEvent_Failure(orderId, customerId, amount)
 	}
 
-	// Ensure the event was prepared succesfully
+	// Ensure the event was prepared successfully
 	if err != nil {
 		return errors.WrapServiceError(errors.ErrCodeService, "failed to create event", err)
 	}

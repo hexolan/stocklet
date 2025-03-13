@@ -2,6 +2,10 @@
 
 An event-driven microservices-based distributed e-commerce example application written in Golang. *(mouthful)*
 
+[![Go Reference](https://pkg.go.dev/badge/github.com/hexolan/stocklet.svg)](https://pkg.go.dev/github.com/hexolan/stocklet)
+[![License](https://img.shields.io/github/license/hexolan/stocklet?color=blue)](/LICENSE)
+[![Go Report Card](https://goreportcard.com/badge/github.com/hexolan/stocklet)](https://goreportcard.com/report/github.com/hexolan/stocklet)
+
 ## 📘 About
 
 This project was originally built as an experiment with event-driven architecture. But I hope it can future serve as a beneficial demonstration of utilising the architecture and exemplify the implementation of some other miscellaneous microservice patterns.

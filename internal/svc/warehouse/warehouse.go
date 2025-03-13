@@ -38,7 +38,7 @@ type WarehouseService struct {
 }
 
 // Interface for database methods
-// Flexibility for implementing seperate controllers for different databases (e.g. Postgres, MongoDB, etc)
+// Flexibility for implementing separate controllers for different databases (e.g. Postgres, MongoDB, etc)
 type StorageController interface {
 	GetProductStock(ctx context.Context, productId string) (*pb.ProductStock, error)
 	GetReservation(ctx context.Context, reservationId string) (*pb.Reservation, error)
@@ -51,7 +51,7 @@ type StorageController interface {
 }
 
 // Interface for event consumption
-// Flexibility for seperate controllers for different messaging systems (e.g. Kafka, NATS, etc)
+// Flexibility for separate controllers for different messaging systems (e.g. Kafka, NATS, etc)
 type ConsumerController interface {
 	messaging.ConsumerController
 

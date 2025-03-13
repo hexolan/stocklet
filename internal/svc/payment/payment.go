@@ -38,7 +38,7 @@ type PaymentService struct {
 }
 
 // Interface for database methods
-// Flexibility for implementing seperate controllers for different databases (e.g. Postgres, MongoDB, etc)
+// Flexibility for implementing separate controllers for different databases (e.g. Postgres, MongoDB, etc)
 type StorageController interface {
 	GetBalance(ctx context.Context, customerId string) (*pb.CustomerBalance, error)
 	GetTransaction(ctx context.Context, transactionId string) (*pb.Transaction, error)
@@ -52,7 +52,7 @@ type StorageController interface {
 }
 
 // Interface for event consumption
-// Flexibility for seperate controllers for different messaging systems (e.g. Kafka, NATS, etc)
+// Flexibility for separate controllers for different messaging systems (e.g. Kafka, NATS, etc)
 type ConsumerController interface {
 	messaging.ConsumerController
 

@@ -95,7 +95,7 @@ func (c *kafkaController) Start() {
 			case messaging.Payment_Processing_Topic:
 				c.consumePaymentProcessedEventTopic(ft)
 			default:
-				log.Warn().Str("topic", ft.Topic).Msg("consumer: recieved records from unexpected topic")
+				log.Warn().Str("topic", ft.Topic).Msg("consumer: received records from unexpected topic")
 			}
 		})
 	}
@@ -107,7 +107,7 @@ func (c *kafkaController) Stop() {
 }
 
 func (c *kafkaController) consumeProductPriceQuoteEventTopic(ft kgo.FetchTopic) {
-	log.Info().Str("topic", ft.Topic).Msg("consumer: recieved records from topic")
+	log.Info().Str("topic", ft.Topic).Msg("consumer: received records from topic")
 
 	// Process each message from the topic
 	ft.EachRecord(func(record *kgo.Record) {
@@ -125,7 +125,7 @@ func (c *kafkaController) consumeProductPriceQuoteEventTopic(ft kgo.FetchTopic) 
 }
 
 func (c *kafkaController) consumeStockReservationEventTopic(ft kgo.FetchTopic) {
-	log.Info().Str("topic", ft.Topic).Msg("consumer: recieved records from topic")
+	log.Info().Str("topic", ft.Topic).Msg("consumer: received records from topic")
 
 	// Process each message from the topic
 	ft.EachRecord(func(record *kgo.Record) {
@@ -143,7 +143,7 @@ func (c *kafkaController) consumeStockReservationEventTopic(ft kgo.FetchTopic) {
 }
 
 func (c *kafkaController) consumeShipmentAllocationEventTopic(ft kgo.FetchTopic) {
-	log.Info().Str("topic", ft.Topic).Msg("consumer: recieved records from topic")
+	log.Info().Str("topic", ft.Topic).Msg("consumer: received records from topic")
 
 	// Process each message from the topic
 	ft.EachRecord(func(record *kgo.Record) {
@@ -161,7 +161,7 @@ func (c *kafkaController) consumeShipmentAllocationEventTopic(ft kgo.FetchTopic)
 }
 
 func (c *kafkaController) consumePaymentProcessedEventTopic(ft kgo.FetchTopic) {
-	log.Info().Str("topic", ft.Topic).Msg("consumer: recieved records from topic")
+	log.Info().Str("topic", ft.Topic).Msg("consumer: received records from topic")
 
 	// Process each message from the topic
 	ft.EachRecord(func(record *kgo.Record) {

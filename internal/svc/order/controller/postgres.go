@@ -108,7 +108,7 @@ func (c postgresController) CreateOrder(ctx context.Context, orderObj *pb.Order)
 	// Create records for any order items
 	err = c.createOrderItems(ctx, tx, newOrder.Id, newOrder.Items)
 	if err != nil {
-		// The deffered rollback will be called (so the transaction will not be commited)
+		// The deffered rollback will be called (so the transaction will not be committed)
 		return nil, err
 	}
 

@@ -41,7 +41,7 @@ type AuthService struct {
 }
 
 // Interface for database methods
-// Allows implementing seperate controllers for different databases (e.g. Postgres, MongoDB, etc)
+// Allows implementing separate controllers for different databases (e.g. Postgres, MongoDB, etc)
 type StorageController interface {
 	SetPassword(ctx context.Context, userId string, password string) error
 	VerifyPassword(ctx context.Context, userId string, password string) (bool, error)
@@ -50,7 +50,7 @@ type StorageController interface {
 }
 
 // Interface for event consumption
-// Flexibility for seperate controllers for different messaging systems (e.g. Kafka, NATS, etc)
+// Flexibility for separate controllers for different messaging systems (e.g. Kafka, NATS, etc)
 type ConsumerController interface {
 	messaging.ConsumerController
 

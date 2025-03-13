@@ -28,6 +28,6 @@ func (cfg *OtelConfig) Load() error {
 		cfg.CollectorGrpc = collectorGrpc
 	}
 
-	// Succesfully loaded config properties
+	// Successfully loaded config properties
 	return nil
 }
