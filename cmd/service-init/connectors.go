@@ -49,11 +49,15 @@ func applyPostgresOutbox(cfg *InitConfig, conf *config.PostgresConfig) {
 
 	url := cfg.DebeziumHost + "/connectors/" + cfg.ServiceName + "-outbox/config"
 	log.Info().Str("url", url).Msg("debezium url")
+
 	req, err := http.NewRequest(
 		"PUT",
 		url,
 		bytes.NewReader(payloadB),
 	)
+	if err != nil {
+		log.Panic().Err(err).Msg("debezium connect: failed to prepare request")
+	}
 	req.Header.Set("Accept", "application/json")
 	req.Header.Set("Content-Type", "application/json")
 
