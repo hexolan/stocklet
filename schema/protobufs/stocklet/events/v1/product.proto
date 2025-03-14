@@ -44,8 +44,8 @@ message ProductDeletedEvent {
 message ProductPriceQuoteEvent {
   enum Type {
     TYPE_UNSPECIFIED = 0;
-    TYPE_UNAVALIABLE = 1;
-    TYPE_AVALIABLE = 2;
+    TYPE_UNAVAILABLE = 1;
+    TYPE_AVAILABLE = 2;
   }
 
   int32 revision = 1;

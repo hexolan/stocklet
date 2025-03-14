@@ -22,11 +22,11 @@ start
 
 |Product|
 :ProductPriceQuoteEvent;
-if (type) is (<color:red>UNAVALIABLE) then
+if (type) is (<color:red>UNAVAILABLE) then
   |Order|
   :<color:red>OrderRejectedEvent;
   kill
-else (<color:green>AVALIABLE)
+else (<color:green>AVAILABLE)
 endif
 
 |Order|

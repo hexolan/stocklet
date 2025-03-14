@@ -58,12 +58,12 @@ func PrepareProductDeletedEvent(product *pb.Product) ([]byte, string, error) {
 	return messaging.MarshalEvent(event, topic)
 }
 
-func PrepareProductPriceQuoteEvent_Avaliable(orderId string, productQuantities map[string]int32, productPrices map[string]float32, totalPrice float32) ([]byte, string, error) {
+func PrepareProductPriceQuoteEvent_Available(orderId string, productQuantities map[string]int32, productPrices map[string]float32, totalPrice float32) ([]byte, string, error) {
 	topic := messaging.Product_PriceQuotation_Topic
 	event := &eventspb.ProductPriceQuoteEvent{
 		Revision: 1,
 
-		Type:              eventspb.ProductPriceQuoteEvent_TYPE_AVALIABLE,
+		Type:              eventspb.ProductPriceQuoteEvent_TYPE_AVAILABLE,
 		OrderId:           orderId,
 		ProductQuantities: productQuantities,
 		ProductPrices:     productPrices,
@@ -73,12 +73,12 @@ func PrepareProductPriceQuoteEvent_Avaliable(orderId string, productQuantities m
 	return messaging.MarshalEvent(event, topic)
 }
 
-func PrepareProductPriceQuoteEvent_Unavaliable(orderId string) ([]byte, string, error) {
+func PrepareProductPriceQuoteEvent_Unavailable(orderId string) ([]byte, string, error) {
 	topic := messaging.Product_PriceQuotation_Topic
 	event := &eventspb.ProductPriceQuoteEvent{
 		Revision: 1,
 
-		Type:    eventspb.ProductPriceQuoteEvent_TYPE_UNAVALIABLE,
+		Type:    eventspb.ProductPriceQuoteEvent_TYPE_UNAVAILABLE,
 		OrderId: orderId,
 	}
 

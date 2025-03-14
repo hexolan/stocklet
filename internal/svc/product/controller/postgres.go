@@ -17,6 +17,7 @@ package controller
 
 import (
 	"context"
+
 	"golang.org/x/exp/maps"
 
 	"github.com/doug-martin/goqu/v9"
@@ -212,7 +213,7 @@ func (c postgresController) PriceOrderProducts(ctx context.Context, orderId stri
 		productPrice, ok := productPrices[productId]
 		if !ok {
 			// Prepare and dispatch failure product pricing event
-			evt, evtTopic, err := product.PrepareProductPriceQuoteEvent_Unavaliable(orderId)
+			evt, evtTopic, err := product.PrepareProductPriceQuoteEvent_Unavailable(orderId)
 			if err != nil {
 				return errors.WrapServiceError(errors.ErrCodeService, "failed to create event", err)
 			}
@@ -229,8 +230,8 @@ func (c postgresController) PriceOrderProducts(ctx context.Context, orderId stri
 		totalPrice += productPrice * float32(quantity)
 	}
 
-	// Prepare and dispatch succesful product pricing event
-	evt, evtTopic, err := product.PrepareProductPriceQuoteEvent_Avaliable(
+	// Prepare and dispatch successful product pricing event
+	evt, evtTopic, err := product.PrepareProductPriceQuoteEvent_Available(
 		orderId,
 		productQuantities,
 		productPrices,

@@ -154,7 +154,7 @@ func (svc OrderService) PlaceOrder(ctx context.Context, req *pb.PlaceOrderReques
 }
 
 func (svc OrderService) ProcessProductPriceQuoteEvent(ctx context.Context, req *eventpb.ProductPriceQuoteEvent) (*emptypb.Empty, error) {
-	if req.Type == eventpb.ProductPriceQuoteEvent_TYPE_AVALIABLE {
+	if req.Type == eventpb.ProductPriceQuoteEvent_TYPE_AVAILABLE {
 		// Set order status to processing (from pending)
 		// Dispatch OrderProcessingEvent
 		_, err := svc.store.ProcessOrder(ctx, req.OrderId, req.TotalPrice)
@@ -162,7 +162,7 @@ func (svc OrderService) ProcessProductPriceQuoteEvent(ctx context.Context, req *
 			return nil, errors.WrapServiceError(errors.ErrCodeExtService, "failed to update in response to event", err)
 		}
 
-	} else if req.Type == eventpb.ProductPriceQuoteEvent_TYPE_UNAVALIABLE {
+	} else if req.Type == eventpb.ProductPriceQuoteEvent_TYPE_UNAVAILABLE {
 		// Set order status to rejected (from pending)
 		// Dispatch OrderRejectedEvent
 		_, err := svc.store.RejectOrder(ctx, req.OrderId)
