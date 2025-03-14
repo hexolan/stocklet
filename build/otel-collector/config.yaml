@@ -7,6 +7,10 @@ receivers:
 exporters:
   debug:
     verbosity: detailed
+  jaeger:
+    endpoint: jaeger:4317
+    tls:
+      insecure: true
 
 processors:
   batch:
@@ -16,7 +20,7 @@ service:
     traces:
       receivers: [otlp]
       processors: [batch]
-      exporters: [debug]
+      exporters: [jaeger, debug]
     metrics:
       receivers: [otlp]
       processors: [batch]

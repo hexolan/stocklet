@@ -18,6 +18,16 @@ services:
     networks:
       - stocklet-network
 
+  jaeger:
+    image: jaegertracing/jaeger:2.4.0
+    ports:
+      - "4317:4317"  # OTLP gRPC receiver
+      - "16686:16686"  # Jaeger UI web interface
+    environment:
+      - LOG_LEVEL=debug
+    networks:
+      - stocklet-network
+
   kafka:
     image: bitnami/kafka:3.4
     restart: unless-stopped
@@ -61,8 +71,6 @@ services:
       start_period: 15s
     depends_on:
       kafka:
-        condition: service_healthy
-      order-service-postgres:
         condition: service_healthy
     networks:
       - stocklet-network
