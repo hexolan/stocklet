@@ -55,10 +55,15 @@ In the nature of open-source software, please consider contributing and giving b
   * [google.golang.org/protobuf](https://pkg.go.dev/google.golang.org/protobuf)
   * [github.com/bufbuild/protovalidate-go](https://pkg.go.dev/github.com/bufbuild/protovalidate-go)
 
+* Frontend
+  * [github.com/sveltejs/kit](https://github.com/sveltejs/kit)
+  * [github.com/tailwindlabs/tailwindcss](https://github.com/tailwindlabs/tailwindcss)
+
 * Tools
   * [plantuml.com](https://plantuml.com/)
   * [github.com/bufbuild/buf/cmd/buf](https://buf.build/docs/installation)
   * [github.com/golang-migrate/migrate/v4](https://pkg.go.dev/github.com/golang-migrate/migrate/v4#section-readme)
+  * [github.com/openapitools/openapi-generator](https://github.com/openapitools/openapi-generator)
 
 * Miscellaneous
   * [golang.org/x/crypto/bcrypt](https://pkg.go.dev/golang.org/x/crypto/bcrypt)

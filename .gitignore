@@ -1,3 +1,4 @@
+# Go
 *.exe
 *.exe~
 *.dll
@@ -7,3 +8,6 @@
 *.out
 go.work
 *.env
+
+# Misc
+node_modules
