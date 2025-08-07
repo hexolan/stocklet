@@ -1,4 +1,16 @@
-FROM node:24
+FROM node:24-slim AS base
 WORKDIR /app
 
-# TODO
+# Install pnpm
+RUN npm install -g pnpm
+
+# Install dependencies
+COPY package.json ./
+COPY pnpm-lock.yaml ./
+RUN pnpm install --frozen-lockfile
+
+# Prepare application
+COPY . ./
+RUN pnpm build
+
+CMD ["pnpm", "preview"]
