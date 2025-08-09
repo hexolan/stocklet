@@ -13,4 +13,4 @@ RUN pnpm install --frozen-lockfile
 COPY . ./
 RUN pnpm build
 
-CMD ["pnpm", "preview"]
+CMD ["pnpm", "preview", "--host", "'0.0.0.0'", "--port", "5173"]
