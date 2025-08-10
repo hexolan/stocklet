@@ -9,8 +9,7 @@
 		<div class="mx-auto w-full max-w-7xl px-4 sm:px-6 lg:px-8">
 			<div class="flex h-16 items-center justify-between">
 				<a href="/" class="flex items-center gap-2 font-semibold">
-					<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="h-6 w-6 text-primary-500"><path d="M3 3h18v2H3zM3 7h18v2H3zM3 11h18v2H3zM3 15h18v2H3zM3 19h18v2H3z"/></svg>
-					<span>Stocklet</span>
+					<img src="/assets/vector/default-monochrome.svg" alt="Stocklet" class="h-8 w-auto" />
 				</a>
 				<Navigation.Bar classes="bg-transparent width-auto h-12 p-0">
 					<Navigation.Tile href="/" label="Home" />

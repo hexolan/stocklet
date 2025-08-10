@@ -1,0 +1,9 @@
+font name: sofiapro-light
+font link: https://www.fontspring.com/fonts/mostardesign/sofia-pro/sofia-pro-light
+font author: Mostardesign
+font author site: http://www.motyfo.com/
+
+icon designer: N.K.Narasimhan
+icon designer link: /creator/animnarsi@yahoo.com/
+        
+{"bg":"#F1E2EC","icon-gradient-0":"#8C48D2","icon-gradient-1":"#CF705A","font":"#331B2B","slogan":"#472f3f"}
