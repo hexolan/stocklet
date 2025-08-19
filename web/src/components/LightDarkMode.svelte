@@ -6,6 +6,7 @@
   $effect(() => {
     const mode = localStorage.getItem('mode') || 'light';
     checked = mode === 'dark';
+    document.documentElement.setAttribute('data-mode', mode);
   });
 
   const onCheckedChange = (event: { checked: boolean }) => {

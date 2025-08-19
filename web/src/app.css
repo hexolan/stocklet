@@ -8,7 +8,7 @@
 
 @source '../node_modules/@skeletonlabs/skeleton-svelte/dist';
 
-[data-theme='theme'] {
+[data-mode='dark'] {
     --text-scaling: 1.067;
     --base-font-color: var(--color-surface-950);
     --base-font-color-dark: var(--color-surface-50);
