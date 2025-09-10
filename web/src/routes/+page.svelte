@@ -1,10 +1,10 @@
 <script lang="ts">
-	import { Navigation, Avatar, Rating } from '@skeletonlabs/skeleton-svelte';
+	import { Avatar, Rating } from '@skeletonlabs/skeleton-svelte';
 	import Navbar from '../components/Navbar.svelte';
 	import Footer from '../components/Footer.svelte';
 </script>
 
-<div data-theme="theme" class="min-h-screen flex flex-col">
+<div data-theme="catppuccin" class="min-h-screen flex flex-col">
 	<!-- Navbar -->
 	<Navbar />
 
