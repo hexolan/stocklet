@@ -15,7 +15,7 @@
                 </a>
             </div>
 
-            <Navigation.Bar classes="bg-transparent w-auto h-12 p-0 mx-12">
+            <Navigation.Bar classes="bg-transparent w-auto p-0 mx-12">
                 <Navigation.Tile href="/" label="Home" />
                 <Navigation.Tile href="/about" label="About" />
 

@@ -24,4 +24,6 @@
   </script>
 </svelte:head>
 
-<Switch {checked} {onCheckedChange}></Switch>
+<div>
+  <Switch {checked} {onCheckedChange}></Switch>
+</div>
