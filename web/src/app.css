@@ -1,11 +1,6 @@
 @import 'tailwindcss';
 
-@import '@skeletonlabs/skeleton';
-@import '@skeletonlabs/skeleton/optional/presets';
-@import '@skeletonlabs/skeleton/themes/catppuccin';
-
 @plugin '@tailwindcss/typography';
-/* @source '../node_modules/@skeletonlabs/skeleton-svelte/dist'; */
 
 [data-theme='catppuccin'] {
     --text-scaling: 1.067;

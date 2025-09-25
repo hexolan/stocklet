@@ -1,7 +1,6 @@
 <script lang="ts">
     import "../app.css";
 
-	import { Navigation } from '@skeletonlabs/skeleton-svelte';
     import { ShoppingCart, User } from '@lucide/svelte';
 </script>
 
@@ -15,19 +14,22 @@
                 </a>
             </div>
 
-            <Navigation.Bar classes="bg-transparent w-auto p-0 mx-12">
-                <Navigation.Tile href="/" label="Home" />
-                <Navigation.Tile href="/about" label="About" />
+
+            <div class="bg-transparent w-auto p-0 mx-12">
+                <a href="/">Home</a>
+                <a href="/about">About</a>
 
                 <div class="flex flex-row gap-4">
-                    <Navigation.Tile href="#" labelExpanded="Cart" title="Cart">
+                    <a href="/" title="Cart">
+                        <p>Cart</p>
                         <ShoppingCart class="h-6 w-6" />
-                    </Navigation.Tile>
-                    <Navigation.Tile href="#" labelExpanded="User" title="User">
+                    </a>
+                    <a href="/" title="User">
+                        <p>User</p>
                         <User class="h-6 w-6" />
-                    </Navigation.Tile>
+                    </a>
                 </div>
-            </Navigation.Bar>
+            </div>
         </div>
     </div>
 </header>
