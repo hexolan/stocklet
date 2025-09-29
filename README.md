@@ -8,11 +8,9 @@ An event-driven microservices-based distributed e-commerce example application w
 
 ## 📘 About
 
-This project was originally built as an experiment with event-driven architecture. But I hope it can future serve as a beneficial demonstration of utilising the architecture and exemplify the implementation of some other miscellaneous microservice patterns.
+This project was originally built as an experiment with event-driven architecture. I hope it can serve as a beneficial demonstration of utilising the architecture and exemplify the implementation of some other miscellaneous microservice patterns in a real-world setting.
 
 Any ideas, suggestions or direct contributions to better conform with general and evolving industry practices are welcome and will be greatly appreciated, as I'd like for this project to evolve to the stage of being somewhat a reflection of a production-ready enterprise application.
-
-⚠️ The application should be considered in the experimental prototype stage. Breaking changes can be expected between any future commits to this repo, in order to ease the development process and allow for clean refactoring of the project.
 
 ## 📝 Features
 
@@ -25,12 +23,13 @@ Any ideas, suggestions or direct contributions to better conform with general an
 * Transactional outbox pattern with Debezium
 * API gateway pattern using Envoy
 * Distributed transactions utilising the saga pattern
+* Compliance with common specifications such as OAuth 2.0
 
 ## ⚠️ Notice
 
-As this project is licensed under the GNU Affero General Public License v3, [copying, templating or referencing code from this project](https://en.wikipedia.org/wiki/Clean-room_design) may violate international copyright law unless your project is using a compatible open-source license. Please ensure any implementation in your own projects is original and complies with applicable licenses and laws.
+As this project is licensed under the GNU Affero General Public License v3, [copying, templating or referencing code from this project](https://en.wikipedia.org/wiki/Clean-room_design) may violate copyright law unless your project is using a compatible open-source license. Please ensure any implementation in your own projects is original and complies with applicable licenses and laws.
 
-In the nature of open-source software, please consider contributing and giving back to the project to help make it better for the greater community, especially if you see it as a useful learning resource.
+In the nature of open-source software, please consider contributing and giving back to the project to help make it better for the greater community, especially if you see it as a useful learning resource (as this repo is intended).
 
 ## 🗃️ Architecture
 

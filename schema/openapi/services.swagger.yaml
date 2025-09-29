@@ -24,6 +24,37 @@ consumes:
 produces:
   - application/json
 paths:
+  /v1/auth/.well-known/jwks:
+    get:
+      operationId: AuthService_GetJwks2
+      responses:
+        "200":
+          description: A successful response.
+          schema:
+            $ref: '#/definitions/v1GetJwksResponse'
+        default:
+          description: An unexpected error response.
+          schema:
+            $ref: '#/definitions/rpcStatus'
+      tags:
+        - AuthService
+  /v1/auth/.well-known/openid-configuration:
+    get:
+      summary: |-
+        OpenID Connect Discovery Endpoint
+        spec: https://openid.net/specs/openid-connect-discovery-1_0.html#ProviderConfigurationRequest
+      operationId: AuthService_GetOpenIDProviderConfig2
+      responses:
+        "200":
+          description: A successful response.
+          schema:
+            $ref: '#/definitions/v1GetOpenIDProviderConfigResponse'
+        default:
+          description: An unexpected error response.
+          schema:
+            $ref: '#/definitions/rpcStatus'
+      tags:
+        - AuthService
   /v1/auth/jwks:
     get:
       operationId: AuthService_GetJwks
@@ -56,6 +87,191 @@ paths:
           required: true
           schema:
             $ref: '#/definitions/v1LoginPasswordRequest'
+      tags:
+        - AuthService
+  /v1/auth/oauth/authorize:
+    get:
+      summary: |-
+        OAuth 2.0 Endpoint
+        spec (RFC 6749): https://www.rfc-editor.org/rfc/rfc6749#section-3.1
+      operationId: AuthService_OAuthAuthorize
+      responses:
+        "200":
+          description: A successful response.
+          schema:
+            $ref: '#/definitions/v1OAuthAuthorizeResponse'
+        default:
+          description: An unexpected error response.
+          schema:
+            $ref: '#/definitions/rpcStatus'
+      parameters:
+        - name: responseType
+          in: query
+          required: false
+          type: string
+        - name: clientId
+          in: query
+          required: false
+          type: string
+        - name: redirectUri
+          in: query
+          required: false
+          type: string
+        - name: scope
+          in: query
+          required: false
+          type: string
+        - name: state
+          in: query
+          required: false
+          type: string
+      tags:
+        - AuthService
+    post:
+      summary: |-
+        OAuth 2.0 Endpoint
+        spec (RFC 6749): https://www.rfc-editor.org/rfc/rfc6749#section-3.1
+      operationId: AuthService_OAuthAuthorize2
+      responses:
+        "200":
+          description: A successful response.
+          schema:
+            $ref: '#/definitions/v1OAuthAuthorizeResponse'
+        default:
+          description: An unexpected error response.
+          schema:
+            $ref: '#/definitions/rpcStatus'
+      parameters:
+        - name: body
+          in: body
+          required: true
+          schema:
+            $ref: '#/definitions/v1OAuthAuthorizeRequest'
+      tags:
+        - AuthService
+  /v1/auth/oauth/introspect:
+    post:
+      summary: |-
+        OAuth 2.0 Endpoint
+        spec (RFC 7662): https://www.rfc-editor.org/rfc/rfc7662
+      operationId: AuthService_OAuthTokenIntrospection
+      responses:
+        "200":
+          description: A successful response.
+          schema:
+            $ref: '#/definitions/v1OAuthTokenIntrospectionResponse'
+        default:
+          description: An unexpected error response.
+          schema:
+            $ref: '#/definitions/rpcStatus'
+      parameters:
+        - name: body
+          in: body
+          required: true
+          schema:
+            $ref: '#/definitions/v1OAuthTokenIntrospectionRequest'
+      tags:
+        - AuthService
+  /v1/auth/oauth/revoke:
+    post:
+      summary: |-
+        OAuth 2.0 Endpoint
+        spec (RFC 7009): https://www.rfc-editor.org/rfc/rfc7009
+      operationId: AuthService_OAuthTokenRevocation
+      responses:
+        "200":
+          description: A successful response.
+          schema:
+            $ref: '#/definitions/v1OAuthTokenRevocationResponse'
+        default:
+          description: An unexpected error response.
+          schema:
+            $ref: '#/definitions/rpcStatus'
+      parameters:
+        - name: body
+          in: body
+          required: true
+          schema:
+            $ref: '#/definitions/v1OAuthTokenRevocationRequest'
+      tags:
+        - AuthService
+  /v1/auth/oauth/token:
+    post:
+      summary: |-
+        OAuth 2.0 Endpoint
+        spec (RFC 6749): https://www.rfc-editor.org/rfc/rfc6749#section-3.2
+      operationId: AuthService_OAuthToken
+      responses:
+        "200":
+          description: A successful response.
+          schema:
+            $ref: '#/definitions/v1OAuthTokenResponse'
+        default:
+          description: An unexpected error response.
+          schema:
+            $ref: '#/definitions/rpcStatus'
+      parameters:
+        - name: body
+          in: body
+          required: true
+          schema:
+            $ref: '#/definitions/v1OAuthTokenRequest'
+      tags:
+        - AuthService
+  /v1/auth/oidc/userinfo:
+    get:
+      summary: |-
+        OpenID Connect Endpoint
+        spec: https://openid.net/specs/openid-connect-core-1_0.html#UserInfo
+      operationId: AuthService_OpenIDUserInfo
+      responses:
+        "200":
+          description: A successful response.
+          schema:
+            $ref: '#/definitions/v1OpenIDUserInfoResponse'
+        default:
+          description: An unexpected error response.
+          schema:
+            $ref: '#/definitions/rpcStatus'
+      tags:
+        - AuthService
+    post:
+      summary: |-
+        OpenID Connect Endpoint
+        spec: https://openid.net/specs/openid-connect-core-1_0.html#UserInfo
+      operationId: AuthService_OpenIDUserInfo2
+      responses:
+        "200":
+          description: A successful response.
+          schema:
+            $ref: '#/definitions/v1OpenIDUserInfoResponse'
+        default:
+          description: An unexpected error response.
+          schema:
+            $ref: '#/definitions/rpcStatus'
+      parameters:
+        - name: body
+          in: body
+          required: true
+          schema:
+            $ref: '#/definitions/v1OpenIDUserInfoRequest'
+      tags:
+        - AuthService
+  /v1/auth/openid:
+    get:
+      summary: |-
+        OpenID Connect Discovery Endpoint
+        spec: https://openid.net/specs/openid-connect-discovery-1_0.html#ProviderConfigurationRequest
+      operationId: AuthService_GetOpenIDProviderConfig
+      responses:
+        "200":
+          description: A successful response.
+          schema:
+            $ref: '#/definitions/v1GetOpenIDProviderConfigResponse'
+        default:
+          description: An unexpected error response.
+          schema:
+            $ref: '#/definitions/rpcStatus'
       tags:
         - AuthService
   /v1/auth/password:
@@ -475,6 +691,133 @@ definitions:
         items:
           type: object
           $ref: '#/definitions/protobufAny'
+  typePostalAddress:
+    type: object
+    properties:
+      revision:
+        type: integer
+        format: int32
+        description: |-
+          The schema revision of the `PostalAddress`. This must be set to 0, which is
+          the latest revision.
+
+          All new revisions **must** be backward compatible with old revisions.
+      regionCode:
+        type: string
+        description: |-
+          Required. CLDR region code of the country/region of the address. This
+          is never inferred and it is up to the user to ensure the value is
+          correct. See http://cldr.unicode.org/ and
+          http://www.unicode.org/cldr/charts/30/supplemental/territory_information.html
+          for details. Example: "CH" for Switzerland.
+      languageCode:
+        type: string
+        description: |-
+          Optional. BCP-47 language code of the contents of this address (if
+          known). This is often the UI language of the input form or is expected
+          to match one of the languages used in the address' country/region, or their
+          transliterated equivalents.
+          This can affect formatting in certain countries, but is not critical
+          to the correctness of the data and will never affect any validation or
+          other non-formatting related operations.
+
+          If this value is not known, it should be omitted (rather than specifying a
+          possibly incorrect default).
+
+          Examples: "zh-Hant", "ja", "ja-Latn", "en".
+      postalCode:
+        type: string
+        description: |-
+          Optional. Postal code of the address. Not all countries use or require
+          postal codes to be present, but where they are used, they may trigger
+          additional validation with other parts of the address (e.g. state/zip
+          validation in the U.S.A.).
+      sortingCode:
+        type: string
+        description: |-
+          Optional. Additional, country-specific, sorting code. This is not used
+          in most regions. Where it is used, the value is either a string like
+          "CEDEX", optionally followed by a number (e.g. "CEDEX 7"), or just a number
+          alone, representing the "sector code" (Jamaica), "delivery area indicator"
+          (Malawi) or "post office indicator" (e.g. Côte d'Ivoire).
+      administrativeArea:
+        type: string
+        description: |-
+          Optional. Highest administrative subdivision which is used for postal
+          addresses of a country or region.
+          For example, this can be a state, a province, an oblast, or a prefecture.
+          Specifically, for Spain this is the province and not the autonomous
+          community (e.g. "Barcelona" and not "Catalonia").
+          Many countries don't use an administrative area in postal addresses. E.g.
+          in Switzerland this should be left unpopulated.
+      locality:
+        type: string
+        description: |-
+          Optional. Generally refers to the city/town portion of the address.
+          Examples: US city, IT comune, UK post town.
+          In regions of the world where localities are not well defined or do not fit
+          into this structure well, leave locality empty and use address_lines.
+      sublocality:
+        type: string
+        description: |-
+          Optional. Sublocality of the address.
+          For example, this can be neighborhoods, boroughs, districts.
+      addressLines:
+        type: array
+        items:
+          type: string
+        description: |-
+          Unstructured address lines describing the lower levels of an address.
+
+          Because values in address_lines do not have type information and may
+          sometimes contain multiple values in a single field (e.g.
+          "Austin, TX"), it is important that the line order is clear. The order of
+          address lines should be "envelope order" for the country/region of the
+          address. In places where this can vary (e.g. Japan), address_language is
+          used to make it explicit (e.g. "ja" for large-to-small ordering and
+          "ja-Latn" or "en" for small-to-large). This way, the most specific line of
+          an address can be selected based on the language.
+
+          The minimum permitted structural representation of an address consists
+          of a region_code with all remaining information placed in the
+          address_lines. It would be possible to format such an address very
+          approximately without geocoding, but no semantic reasoning could be
+          made about any of the address components until it was at least
+          partially resolved.
+
+          Creating an address only containing a region_code and address_lines, and
+          then geocoding is the recommended way to handle completely unstructured
+          addresses (as opposed to guessing which parts of the address should be
+          localities or administrative areas).
+      recipients:
+        type: array
+        items:
+          type: string
+        description: |-
+          Optional. The recipient at the address.
+          This field may, under certain circumstances, contain multiline information.
+          For example, it might contain "care of" information.
+      organization:
+        type: string
+        description: Optional. The name of the organization at the address.
+    description: |-
+      Represents a postal address, e.g. for postal delivery or payments addresses.
+      Given a postal address, a postal service can deliver items to a premise, P.O.
+      Box or similar.
+      It is not intended to model geographical locations (roads, towns,
+      mountains).
+
+      In typical usage an address would be created via user input or from importing
+      existing data, depending on the type of process.
+
+      Advice on address input / editing:
+       - Use an i18n-ready address widget such as
+         https://github.com/google/libaddressinput)
+      - Users should not be presented with UI elements for input or editing of
+        fields outside countries where that field is used.
+
+      For more guidance on how to use this schema, please see:
+      https://support.google.com/business/answer/6397478
   v1AuthToken:
     type: object
     properties:
@@ -501,6 +844,31 @@ definitions:
         items:
           type: object
           $ref: '#/definitions/v1PublicEcJWK'
+  v1GetOpenIDProviderConfigResponse:
+    type: object
+    properties:
+      issuer:
+        type: string
+      authorizationEndpoint:
+        type: string
+      tokenEndpoint:
+        type: string
+      userinfoEndpoint:
+        type: string
+      jwksUri:
+        type: string
+      tokenEndpointAuthMethodsSupported:
+        type: array
+        items:
+          type: string
+      scopesSupported:
+        type: array
+        items:
+          type: string
+      claimsSupported:
+        type: array
+        items:
+          type: string
   v1LoginPasswordRequest:
     type: object
     properties:
@@ -518,6 +886,144 @@ definitions:
         type: string
       data:
         $ref: '#/definitions/v1AuthToken'
+  v1OAuthAuthorizeRequest:
+    type: object
+    properties:
+      responseType:
+        type: string
+      clientId:
+        type: string
+      redirectUri:
+        type: string
+      scope:
+        type: string
+      state:
+        type: string
+  v1OAuthAuthorizeResponse:
+    type: object
+    properties:
+      code:
+        type: string
+      state:
+        type: string
+  v1OAuthTokenIntrospectionRequest:
+    type: object
+    properties:
+      token:
+        type: string
+      tokenTypeHint:
+        type: string
+  v1OAuthTokenIntrospectionResponse:
+    type: object
+    properties:
+      active:
+        type: boolean
+      scope:
+        type: string
+      clientId:
+        type: string
+      username:
+        type: string
+      tokenType:
+        type: string
+      exp:
+        type: string
+        format: int64
+      iat:
+        type: string
+        format: int64
+      nbf:
+        type: string
+        format: int64
+      sub:
+        type: string
+      aud:
+        type: string
+      iss:
+        type: string
+      jti:
+        type: string
+  v1OAuthTokenRequest:
+    type: object
+    properties:
+      grantType:
+        type: string
+      code:
+        type: string
+      redirectUri:
+        type: string
+      clientId:
+        type: string
+  v1OAuthTokenResponse:
+    type: object
+    properties:
+      accessToken:
+        type: string
+      tokenType:
+        type: string
+      refreshToken:
+        type: string
+      expiresIn:
+        type: string
+        format: int64
+      idToken:
+        type: string
+  v1OAuthTokenRevocationRequest:
+    type: object
+    properties:
+      token:
+        type: string
+      tokenTypeHint:
+        type: string
+  v1OAuthTokenRevocationResponse:
+    type: object
+  v1OpenIDUserInfoRequest:
+    type: object
+  v1OpenIDUserInfoResponse:
+    type: object
+    properties:
+      sub:
+        type: string
+      name:
+        type: string
+      familyName:
+        type: string
+      givenName:
+        type: string
+      middleName:
+        type: string
+      nickname:
+        type: string
+      preferredUsername:
+        type: string
+      profile:
+        type: string
+      picture:
+        type: string
+      website:
+        type: string
+      email:
+        type: string
+      emailVerified:
+        type: boolean
+      gender:
+        type: string
+      birthdate:
+        type: string
+      zoneinfo:
+        type: string
+      locale:
+        type: string
+      phoneNumber:
+        type: string
+      phoneNumberVerified:
+        type: boolean
+      address:
+        $ref: '#/definitions/typePostalAddress'
+      updatedAt:
+        type: string
+        format: int64
+    title: https://openid.net/specs/openid-connect-core-1_0.html#StandardClaims
   v1Order:
     type: object
     properties:

@@ -1,4 +1,4 @@
-// Copyright (C) 2024 Declan Teevan
+// Copyright (C) 2025 Declan Teevan
 //
 // This program is free software: you can redistribute it and/or modify
 // it under the terms of the GNU Affero General Public License as published by
@@ -39,6 +39,12 @@ const _ = grpc.SupportPackageIsVersion7
 const (
 	AuthService_ServiceInfo_FullMethodName             = "/stocklet.auth.v1.AuthService/ServiceInfo"
 	AuthService_GetJwks_FullMethodName                 = "/stocklet.auth.v1.AuthService/GetJwks"
+	AuthService_GetOpenIDProviderConfig_FullMethodName = "/stocklet.auth.v1.AuthService/GetOpenIDProviderConfig"
+	AuthService_OAuthAuthorize_FullMethodName          = "/stocklet.auth.v1.AuthService/OAuthAuthorize"
+	AuthService_OAuthToken_FullMethodName              = "/stocklet.auth.v1.AuthService/OAuthToken"
+	AuthService_OAuthTokenRevocation_FullMethodName    = "/stocklet.auth.v1.AuthService/OAuthTokenRevocation"
+	AuthService_OAuthTokenIntrospection_FullMethodName = "/stocklet.auth.v1.AuthService/OAuthTokenIntrospection"
+	AuthService_OpenIDUserInfo_FullMethodName          = "/stocklet.auth.v1.AuthService/OpenIDUserInfo"
 	AuthService_LoginPassword_FullMethodName           = "/stocklet.auth.v1.AuthService/LoginPassword"
 	AuthService_SetPassword_FullMethodName             = "/stocklet.auth.v1.AuthService/SetPassword"
 	AuthService_ProcessUserDeletedEvent_FullMethodName = "/stocklet.auth.v1.AuthService/ProcessUserDeletedEvent"
@@ -53,6 +59,24 @@ type AuthServiceClient interface {
 	// buf:lint:ignore RPC_REQUEST_RESPONSE_UNIQUE
 	ServiceInfo(ctx context.Context, in *v1.ServiceInfoRequest, opts ...grpc.CallOption) (*v1.ServiceInfoResponse, error)
 	GetJwks(ctx context.Context, in *GetJwksRequest, opts ...grpc.CallOption) (*GetJwksResponse, error)
+	// OpenID Connect Discovery Endpoint
+	// spec: https://openid.net/specs/openid-connect-discovery-1_0.html#ProviderConfigurationRequest
+	GetOpenIDProviderConfig(ctx context.Context, in *GetOpenIDProviderConfigRequest, opts ...grpc.CallOption) (*GetOpenIDProviderConfigResponse, error)
+	// OAuth 2.0 Endpoint
+	// spec (RFC 6749): https://www.rfc-editor.org/rfc/rfc6749#section-3.1
+	OAuthAuthorize(ctx context.Context, in *OAuthAuthorizeRequest, opts ...grpc.CallOption) (*OAuthAuthorizeResponse, error)
+	// OAuth 2.0 Endpoint
+	// spec (RFC 6749): https://www.rfc-editor.org/rfc/rfc6749#section-3.2
+	OAuthToken(ctx context.Context, in *OAuthTokenRequest, opts ...grpc.CallOption) (*OAuthTokenResponse, error)
+	// OAuth 2.0 Endpoint
+	// spec (RFC 7009): https://www.rfc-editor.org/rfc/rfc7009
+	OAuthTokenRevocation(ctx context.Context, in *OAuthTokenRevocationRequest, opts ...grpc.CallOption) (*OAuthTokenRevocationResponse, error)
+	// OAuth 2.0 Endpoint
+	// spec (RFC 7662): https://www.rfc-editor.org/rfc/rfc7662
+	OAuthTokenIntrospection(ctx context.Context, in *OAuthTokenIntrospectionRequest, opts ...grpc.CallOption) (*OAuthTokenIntrospectionResponse, error)
+	// OpenID Connect Endpoint
+	// spec: https://openid.net/specs/openid-connect-core-1_0.html#UserInfo
+	OpenIDUserInfo(ctx context.Context, in *OpenIDUserInfoRequest, opts ...grpc.CallOption) (*OpenIDUserInfoResponse, error)
 	LoginPassword(ctx context.Context, in *LoginPasswordRequest, opts ...grpc.CallOption) (*LoginPasswordResponse, error)
 	SetPassword(ctx context.Context, in *SetPasswordRequest, opts ...grpc.CallOption) (*SetPasswordResponse, error)
 	// A consumer will call this method to process events.
@@ -83,6 +107,60 @@ func (c *authServiceClient) ServiceInfo(ctx context.Context, in *v1.ServiceInfoR
 func (c *authServiceClient) GetJwks(ctx context.Context, in *GetJwksRequest, opts ...grpc.CallOption) (*GetJwksResponse, error) {
 	out := new(GetJwksResponse)
 	err := c.cc.Invoke(ctx, AuthService_GetJwks_FullMethodName, in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *authServiceClient) GetOpenIDProviderConfig(ctx context.Context, in *GetOpenIDProviderConfigRequest, opts ...grpc.CallOption) (*GetOpenIDProviderConfigResponse, error) {
+	out := new(GetOpenIDProviderConfigResponse)
+	err := c.cc.Invoke(ctx, AuthService_GetOpenIDProviderConfig_FullMethodName, in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *authServiceClient) OAuthAuthorize(ctx context.Context, in *OAuthAuthorizeRequest, opts ...grpc.CallOption) (*OAuthAuthorizeResponse, error) {
+	out := new(OAuthAuthorizeResponse)
+	err := c.cc.Invoke(ctx, AuthService_OAuthAuthorize_FullMethodName, in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *authServiceClient) OAuthToken(ctx context.Context, in *OAuthTokenRequest, opts ...grpc.CallOption) (*OAuthTokenResponse, error) {
+	out := new(OAuthTokenResponse)
+	err := c.cc.Invoke(ctx, AuthService_OAuthToken_FullMethodName, in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *authServiceClient) OAuthTokenRevocation(ctx context.Context, in *OAuthTokenRevocationRequest, opts ...grpc.CallOption) (*OAuthTokenRevocationResponse, error) {
+	out := new(OAuthTokenRevocationResponse)
+	err := c.cc.Invoke(ctx, AuthService_OAuthTokenRevocation_FullMethodName, in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *authServiceClient) OAuthTokenIntrospection(ctx context.Context, in *OAuthTokenIntrospectionRequest, opts ...grpc.CallOption) (*OAuthTokenIntrospectionResponse, error) {
+	out := new(OAuthTokenIntrospectionResponse)
+	err := c.cc.Invoke(ctx, AuthService_OAuthTokenIntrospection_FullMethodName, in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *authServiceClient) OpenIDUserInfo(ctx context.Context, in *OpenIDUserInfoRequest, opts ...grpc.CallOption) (*OpenIDUserInfoResponse, error) {
+	out := new(OpenIDUserInfoResponse)
+	err := c.cc.Invoke(ctx, AuthService_OpenIDUserInfo_FullMethodName, in, out, opts...)
 	if err != nil {
 		return nil, err
 	}
@@ -125,6 +203,24 @@ type AuthServiceServer interface {
 	// buf:lint:ignore RPC_REQUEST_RESPONSE_UNIQUE
 	ServiceInfo(context.Context, *v1.ServiceInfoRequest) (*v1.ServiceInfoResponse, error)
 	GetJwks(context.Context, *GetJwksRequest) (*GetJwksResponse, error)
+	// OpenID Connect Discovery Endpoint
+	// spec: https://openid.net/specs/openid-connect-discovery-1_0.html#ProviderConfigurationRequest
+	GetOpenIDProviderConfig(context.Context, *GetOpenIDProviderConfigRequest) (*GetOpenIDProviderConfigResponse, error)
+	// OAuth 2.0 Endpoint
+	// spec (RFC 6749): https://www.rfc-editor.org/rfc/rfc6749#section-3.1
+	OAuthAuthorize(context.Context, *OAuthAuthorizeRequest) (*OAuthAuthorizeResponse, error)
+	// OAuth 2.0 Endpoint
+	// spec (RFC 6749): https://www.rfc-editor.org/rfc/rfc6749#section-3.2
+	OAuthToken(context.Context, *OAuthTokenRequest) (*OAuthTokenResponse, error)
+	// OAuth 2.0 Endpoint
+	// spec (RFC 7009): https://www.rfc-editor.org/rfc/rfc7009
+	OAuthTokenRevocation(context.Context, *OAuthTokenRevocationRequest) (*OAuthTokenRevocationResponse, error)
+	// OAuth 2.0 Endpoint
+	// spec (RFC 7662): https://www.rfc-editor.org/rfc/rfc7662
+	OAuthTokenIntrospection(context.Context, *OAuthTokenIntrospectionRequest) (*OAuthTokenIntrospectionResponse, error)
+	// OpenID Connect Endpoint
+	// spec: https://openid.net/specs/openid-connect-core-1_0.html#UserInfo
+	OpenIDUserInfo(context.Context, *OpenIDUserInfoRequest) (*OpenIDUserInfoResponse, error)
 	LoginPassword(context.Context, *LoginPasswordRequest) (*LoginPasswordResponse, error)
 	SetPassword(context.Context, *SetPasswordRequest) (*SetPasswordResponse, error)
 	// A consumer will call this method to process events.
@@ -145,6 +241,24 @@ func (UnimplementedAuthServiceServer) ServiceInfo(context.Context, *v1.ServiceIn
 }
 func (UnimplementedAuthServiceServer) GetJwks(context.Context, *GetJwksRequest) (*GetJwksResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method GetJwks not implemented")
+}
+func (UnimplementedAuthServiceServer) GetOpenIDProviderConfig(context.Context, *GetOpenIDProviderConfigRequest) (*GetOpenIDProviderConfigResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method GetOpenIDProviderConfig not implemented")
+}
+func (UnimplementedAuthServiceServer) OAuthAuthorize(context.Context, *OAuthAuthorizeRequest) (*OAuthAuthorizeResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method OAuthAuthorize not implemented")
+}
+func (UnimplementedAuthServiceServer) OAuthToken(context.Context, *OAuthTokenRequest) (*OAuthTokenResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method OAuthToken not implemented")
+}
+func (UnimplementedAuthServiceServer) OAuthTokenRevocation(context.Context, *OAuthTokenRevocationRequest) (*OAuthTokenRevocationResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method OAuthTokenRevocation not implemented")
+}
+func (UnimplementedAuthServiceServer) OAuthTokenIntrospection(context.Context, *OAuthTokenIntrospectionRequest) (*OAuthTokenIntrospectionResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method OAuthTokenIntrospection not implemented")
+}
+func (UnimplementedAuthServiceServer) OpenIDUserInfo(context.Context, *OpenIDUserInfoRequest) (*OpenIDUserInfoResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method OpenIDUserInfo not implemented")
 }
 func (UnimplementedAuthServiceServer) LoginPassword(context.Context, *LoginPasswordRequest) (*LoginPasswordResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method LoginPassword not implemented")
@@ -200,6 +314,114 @@ func _AuthService_GetJwks_Handler(srv interface{}, ctx context.Context, dec func
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
 		return srv.(AuthServiceServer).GetJwks(ctx, req.(*GetJwksRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _AuthService_GetOpenIDProviderConfig_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(GetOpenIDProviderConfigRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(AuthServiceServer).GetOpenIDProviderConfig(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: AuthService_GetOpenIDProviderConfig_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(AuthServiceServer).GetOpenIDProviderConfig(ctx, req.(*GetOpenIDProviderConfigRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _AuthService_OAuthAuthorize_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(OAuthAuthorizeRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(AuthServiceServer).OAuthAuthorize(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: AuthService_OAuthAuthorize_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(AuthServiceServer).OAuthAuthorize(ctx, req.(*OAuthAuthorizeRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _AuthService_OAuthToken_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(OAuthTokenRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(AuthServiceServer).OAuthToken(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: AuthService_OAuthToken_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(AuthServiceServer).OAuthToken(ctx, req.(*OAuthTokenRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _AuthService_OAuthTokenRevocation_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(OAuthTokenRevocationRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(AuthServiceServer).OAuthTokenRevocation(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: AuthService_OAuthTokenRevocation_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(AuthServiceServer).OAuthTokenRevocation(ctx, req.(*OAuthTokenRevocationRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _AuthService_OAuthTokenIntrospection_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(OAuthTokenIntrospectionRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(AuthServiceServer).OAuthTokenIntrospection(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: AuthService_OAuthTokenIntrospection_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(AuthServiceServer).OAuthTokenIntrospection(ctx, req.(*OAuthTokenIntrospectionRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _AuthService_OpenIDUserInfo_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(OpenIDUserInfoRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(AuthServiceServer).OpenIDUserInfo(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: AuthService_OpenIDUserInfo_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(AuthServiceServer).OpenIDUserInfo(ctx, req.(*OpenIDUserInfoRequest))
 	}
 	return interceptor(ctx, in, info, handler)
 }
@@ -272,6 +494,30 @@ var AuthService_ServiceDesc = grpc.ServiceDesc{
 		{
 			MethodName: "GetJwks",
 			Handler:    _AuthService_GetJwks_Handler,
+		},
+		{
+			MethodName: "GetOpenIDProviderConfig",
+			Handler:    _AuthService_GetOpenIDProviderConfig_Handler,
+		},
+		{
+			MethodName: "OAuthAuthorize",
+			Handler:    _AuthService_OAuthAuthorize_Handler,
+		},
+		{
+			MethodName: "OAuthToken",
+			Handler:    _AuthService_OAuthToken_Handler,
+		},
+		{
+			MethodName: "OAuthTokenRevocation",
+			Handler:    _AuthService_OAuthTokenRevocation_Handler,
+		},
+		{
+			MethodName: "OAuthTokenIntrospection",
+			Handler:    _AuthService_OAuthTokenIntrospection_Handler,
+		},
+		{
+			MethodName: "OpenIDUserInfo",
+			Handler:    _AuthService_OpenIDUserInfo_Handler,
 		},
 		{
 			MethodName: "LoginPassword",

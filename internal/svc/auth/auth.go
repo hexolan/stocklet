@@ -20,6 +20,8 @@ import (
 
 	"buf.build/go/protovalidate"
 	"github.com/rs/zerolog/log"
+	"google.golang.org/grpc/codes"
+	"google.golang.org/grpc/status"
 	"google.golang.org/protobuf/types/known/emptypb"
 
 	"github.com/hexolan/stocklet/internal/pkg/errors"
@@ -39,6 +41,9 @@ type AuthService struct {
 	store StorageController
 	pbVal *protovalidate.Validator
 }
+
+// Ensure methods are implemented in AuthService at compile time
+var _ pb.AuthServiceServer = (*AuthService)(nil)
 
 // Interface for database methods
 // Allows implementing separate controllers for different databases (e.g. Postgres, MongoDB, etc)
@@ -82,6 +87,30 @@ func (svc AuthService) ServiceInfo(ctx context.Context, req *commonpb.ServiceInf
 	}, nil
 }
 
+func (svc AuthService) GetOpenIDProviderConfig(ctx context.Context, req *pb.GetOpenIDProviderConfigRequest) (*pb.GetOpenIDProviderConfigResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method GetOpenIDProviderConfig not implemented")
+}
+
+func (svc AuthService) OAuthAuthorize(ctx context.Context, req *pb.OAuthAuthorizeRequest) (*pb.OAuthAuthorizeResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method OAuthAuthorize not implemented")
+}
+
+func (svc AuthService) OAuthToken(ctx context.Context, req *pb.OAuthTokenRequest) (*pb.OAuthTokenResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method OAuthToken not implemented")
+}
+
+func (svc AuthService) OAuthTokenRevocation(ctx context.Context, req *pb.OAuthTokenRevocationRequest) (*pb.OAuthTokenRevocationResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method OAuthTokenRevocation not implemented")
+}
+
+func (svc AuthService) OAuthTokenIntrospection(ctx context.Context, req *pb.OAuthTokenIntrospectionRequest) (*pb.OAuthTokenIntrospectionResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method OAuthTokenIntrospection not implemented")
+}
+
+func (svc AuthService) OpenIDUserInfo(ctx context.Context, req *pb.OpenIDUserInfoRequest) (*pb.OpenIDUserInfoResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method OpenIDUserInfo not implemented")
+}
+
 func (svc AuthService) LoginPassword(ctx context.Context, req *pb.LoginPasswordRequest) (*pb.LoginPasswordResponse, error) {
 	// Validate the request args
 	if err := (*svc.pbVal).Validate(req); err != nil {
@@ -91,7 +120,7 @@ func (svc AuthService) LoginPassword(ctx context.Context, req *pb.LoginPasswordR
 
 	// Verify password
 	match, err := svc.store.VerifyPassword(ctx, req.UserId, req.Password)
-	if err != nil || match == false {
+	if err != nil || !match {
 		return nil, errors.WrapServiceError(errors.ErrCodeForbidden, "invalid user id or password", err)
 	}
 
