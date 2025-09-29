@@ -138,8 +138,12 @@ message GetOpenIDProviderConfigRequest {}
 
 message GetOpenIDProviderConfigResponse {
   string issuer = 1;
+
   string authorization_endpoint = 2;
   string token_endpoint = 3;
+  string introspection_endpoint = 9;
+  string revocation_endpoint = 10;
+
   string userinfo_endpoint = 4;
   string jwks_uri = 5;
 

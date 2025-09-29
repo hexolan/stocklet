@@ -68,6 +68,15 @@ type ServiceConfigOpts struct {
 
 	// Generated from PrivateKey
 	PublicJwk *pb.PublicEcJWK
+
+	// Env Var: "API_HOSTNAME"
+	// i.e. "api.example.com"
+	ApiHostname string
+
+	// Env Var: "API_PUBLIC_URL"
+	// default: http://localhost/api
+	// i.e: "https://example.com/api" or "https://api.example.com"
+	ApiPublicUrl string
 }
 
 // Load the ServiceConfigOpts
@@ -83,6 +92,21 @@ func (opts *ServiceConfigOpts) Load() error {
 
 	// prepare the JWK public key
 	opts.PublicJwk = preparePublicJwk(opts.PrivateKey)
+
+	// load other attributes
+	apiHostname, err := config.RequireFromEnv("API_HOSTNAME")
+	if err != nil {
+		return err
+	}
+
+	opts.ApiHostname = apiHostname
+
+	apiPublicUrl, err := config.RequireFromEnv("API_PUBLIC_URL")
+	if err != nil {
+		return err
+	}
+
+	opts.ApiPublicUrl = apiPublicUrl
 
 	return nil
 }

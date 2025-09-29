@@ -853,6 +853,10 @@ definitions:
         type: string
       tokenEndpoint:
         type: string
+      introspectionEndpoint:
+        type: string
+      revocationEndpoint:
+        type: string
       userinfoEndpoint:
         type: string
       jwksUri:

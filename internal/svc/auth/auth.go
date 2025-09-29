@@ -42,9 +42,6 @@ type AuthService struct {
 	pbVal *protovalidate.Validator
 }
 
-// Ensure methods are implemented in AuthService at compile time
-var _ pb.AuthServiceServer = (*AuthService)(nil)
-
 // Interface for database methods
 // Allows implementing separate controllers for different databases (e.g. Postgres, MongoDB, etc)
 type StorageController interface {
@@ -88,7 +85,18 @@ func (svc AuthService) ServiceInfo(ctx context.Context, req *commonpb.ServiceInf
 }
 
 func (svc AuthService) GetOpenIDProviderConfig(ctx context.Context, req *pb.GetOpenIDProviderConfigRequest) (*pb.GetOpenIDProviderConfigResponse, error) {
-	return nil, status.Errorf(codes.Unimplemented, "method GetOpenIDProviderConfig not implemented")
+	return &pb.GetOpenIDProviderConfigResponse{
+		Issuer:                            svc.cfg.ServiceOpts.ApiPublicUrl + "/v1/auth",
+		AuthorizationEndpoint:             svc.cfg.ServiceOpts.ApiPublicUrl + "/v1/auth/oauth/authorize",
+		TokenEndpoint:                     svc.cfg.ServiceOpts.ApiPublicUrl + "/v1/auth/oauth/token",
+		IntrospectionEndpoint:             svc.cfg.ServiceOpts.ApiPublicUrl + "/v1/auth/oauth/introspect",
+		RevocationEndpoint:                svc.cfg.ServiceOpts.ApiPublicUrl + "/v1/auth/oauth/revoke",
+		UserinfoEndpoint:                  svc.cfg.ServiceOpts.ApiPublicUrl + "/v1/auth/oidc/userinfo",
+		JwksUri:                           svc.cfg.ServiceOpts.ApiPublicUrl + "/v1/auth/.well-known/jwks",
+		TokenEndpointAuthMethodsSupported: []string{},
+		ScopesSupported:                   []string{},
+		ClaimsSupported:                   []string{},
+	}, nil
 }
 
 func (svc AuthService) OAuthAuthorize(ctx context.Context, req *pb.OAuthAuthorizeRequest) (*pb.OAuthAuthorizeResponse, error) {
