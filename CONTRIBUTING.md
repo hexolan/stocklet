@@ -1,6 +1,6 @@
 # Contributing to Stocklet
 
-First off, thanks for consdering to contribute to this repository! ❤️
+First off, thanks for considering to contribute to this repository! ❤️
 
 All types of contributions are encouraged and valued. Whilst a lot of the wording in these guidelines are rather generalised and based upon a community template, as a personal touch I would like to thank you for considering contributing to this project.
 
