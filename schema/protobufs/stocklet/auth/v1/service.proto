@@ -1,4 +1,4 @@
-// Copyright (C) 2024 Declan Teevan
+// Copyright (C) 2025 Declan Teevan
 //
 // This program is free software: you can redistribute it and/or modify
 // it under the terms of the GNU Affero General Public License as published by
@@ -22,6 +22,7 @@ import "google/api/annotations.proto";
 import "google/api/field_behavior.proto";
 import "google/api/visibility.proto";
 import "google/protobuf/empty.proto";
+import "google/type/postal_address.proto";
 import "stocklet/auth/v1/types.proto";
 import "stocklet/common/v1/requests.proto";
 import "stocklet/events/v1/user.proto";
@@ -37,7 +38,70 @@ service AuthService {
   }
 
   rpc GetJwks(GetJwksRequest) returns (GetJwksResponse) {
-    option (google.api.http) = {get: "/v1/auth/jwks"};
+    option (google.api.http) = {
+      get: "/v1/auth/jwks"
+      additional_bindings: {get: "/v1/auth/.well-known/jwks"}
+    };
+  }
+
+  // OpenID Connect Discovery Endpoint
+  // spec: https://openid.net/specs/openid-connect-discovery-1_0.html#ProviderConfigurationRequest
+  rpc GetOpenIDProviderConfig(GetOpenIDProviderConfigRequest) returns (GetOpenIDProviderConfigResponse) {
+    option (google.api.http) = {
+      get: "/v1/auth/openid"
+      additional_bindings: {get: "/v1/auth/.well-known/openid-configuration"}
+    };
+  }
+
+  // OAuth 2.0 Endpoint
+  // spec (RFC 6749): https://www.rfc-editor.org/rfc/rfc6749#section-3.1
+  rpc OAuthAuthorize(OAuthAuthorizeRequest) returns (OAuthAuthorizeResponse) {
+    option (google.api.http) = {
+      get: "/v1/auth/oauth/authorize"
+      additional_bindings: {
+        post: "/v1/auth/oauth/authorize"
+        body: "*"
+      }
+    };
+  }
+
+  // OAuth 2.0 Endpoint
+  // spec (RFC 6749): https://www.rfc-editor.org/rfc/rfc6749#section-3.2
+  rpc OAuthToken(OAuthTokenRequest) returns (OAuthTokenResponse) {
+    option (google.api.http) = {
+      post: "/v1/auth/oauth/token"
+      body: "*"
+    };
+  }
+
+  // OAuth 2.0 Endpoint
+  // spec (RFC 7009): https://www.rfc-editor.org/rfc/rfc7009
+  rpc OAuthTokenRevocation(OAuthTokenRevocationRequest) returns (OAuthTokenRevocationResponse) {
+    option (google.api.http) = {
+      post: "/v1/auth/oauth/revoke"
+      body: "*"
+    };
+  }
+
+  // OAuth 2.0 Endpoint
+  // spec (RFC 7662): https://www.rfc-editor.org/rfc/rfc7662
+  rpc OAuthTokenIntrospection(OAuthTokenIntrospectionRequest) returns (OAuthTokenIntrospectionResponse) {
+    option (google.api.http) = {
+      post: "/v1/auth/oauth/introspect"
+      body: "*"
+    };
+  }
+
+  // OpenID Connect Endpoint
+  // spec: https://openid.net/specs/openid-connect-core-1_0.html#UserInfo
+  rpc OpenIDUserInfo(OpenIDUserInfoRequest) returns (OpenIDUserInfoResponse) {
+    option (google.api.http) = {
+      get: "/v1/auth/oidc/userinfo"
+      additional_bindings: {
+        post: "/v1/auth/oidc/userinfo"
+        body: "*"
+      }
+    };
   }
 
   rpc LoginPassword(LoginPasswordRequest) returns (LoginPasswordResponse) {
@@ -70,6 +134,102 @@ message GetJwksResponse {
   repeated PublicEcJWK keys = 1;
 }
 
+message GetOpenIDProviderConfigRequest {}
+
+message GetOpenIDProviderConfigResponse {
+  string issuer = 1;
+  string authorization_endpoint = 2;
+  string token_endpoint = 3;
+  string userinfo_endpoint = 4;
+  string jwks_uri = 5;
+
+  repeated string token_endpoint_auth_methods_supported = 6;
+
+  repeated string scopes_supported = 7;
+  repeated string claims_supported = 8;
+}
+
+message OAuthAuthorizeRequest {
+  string response_type = 1;
+  string client_id = 2;
+  string redirect_uri = 3;
+  string scope = 4;
+  string state = 5;
+}
+
+message OAuthAuthorizeResponse {
+  string code = 1;
+  string state = 2;
+}
+
+message OAuthTokenRequest {
+  string grant_type = 1;
+  string code = 2;
+  string redirect_uri = 3;
+  string client_id = 4;
+}
+
+message OAuthTokenResponse {
+  string access_token = 1;
+  string token_type = 2;
+  string refresh_token = 3;
+  int64 expires_in = 4;
+  string id_token = 5;
+}
+
+message OAuthTokenRevocationRequest {
+  string token = 1;
+  string token_type_hint = 2;
+}
+
+message OAuthTokenRevocationResponse {}
+
+message OAuthTokenIntrospectionRequest {
+  string token = 1;
+  string token_type_hint = 2;
+}
+
+message OAuthTokenIntrospectionResponse {
+  bool active = 1;
+  string scope = 2;
+  string client_id = 3;
+  string username = 4;
+  string token_type = 5;
+  int64 exp = 6;
+  int64 iat = 7;
+  int64 nbf = 8;
+  string sub = 9;
+  string aud = 10;
+  string iss = 11;
+  string jti = 12;
+}
+
+message OpenIDUserInfoRequest {}
+
+// https://openid.net/specs/openid-connect-core-1_0.html#StandardClaims
+message OpenIDUserInfoResponse {
+  string sub = 1;
+  string name = 2;
+  string family_name = 3;
+  string given_name = 4;
+  string middle_name = 5;
+  string nickname = 6;
+  string preferred_username = 7;
+  string profile = 8;
+  string picture = 9;
+  string website = 10;
+  string email = 11;
+  bool email_verified = 12;
+  string gender = 13;
+  string birthdate = 14;
+  string zoneinfo = 15;
+  string locale = 16;
+  string phone_number = 17;
+  bool phone_number_verified = 18;
+  google.type.PostalAddress address = 19;
+  int64 updated_at = 20;
+}
+
 message LoginPasswordRequest {
   string user_id = 1 [
     (google.api.field_behavior) = REQUIRED,
@@ -79,8 +239,8 @@ message LoginPasswordRequest {
   string password = 2 [
     (google.api.field_behavior) = REQUIRED,
     (buf.validate.field).string = {
-      min_len: 1;
-      max_len: 64;
+      min_len: 1
+      max_len: 64
     }
   ];
 }
@@ -99,8 +259,8 @@ message SetPasswordRequest {
   string password = 2 [
     (google.api.field_behavior) = REQUIRED,
     (buf.validate.field).string = {
-      min_len: 1;
-      max_len: 64;
+      min_len: 1
+      max_len: 64
     }
   ];
 }
