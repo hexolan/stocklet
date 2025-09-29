@@ -18,7 +18,7 @@ package shipping
 import (
 	"context"
 
-	"github.com/bufbuild/protovalidate-go"
+	"buf.build/go/protovalidate"
 	"github.com/rs/zerolog/log"
 	"google.golang.org/protobuf/types/known/emptypb"
 
@@ -66,7 +66,7 @@ func NewShippingService(cfg *ServiceConfig, store StorageController) *ShippingSe
 	// Initialise the service
 	return &ShippingService{
 		store: store,
-		pbVal: pbVal,
+		pbVal: &pbVal,
 	}
 }
 
@@ -80,7 +80,7 @@ func (svc ShippingService) ServiceInfo(ctx context.Context, req *commonpb.Servic
 
 func (svc ShippingService) ViewShipment(ctx context.Context, req *pb.ViewShipmentRequest) (*pb.ViewShipmentResponse, error) {
 	// Validate the request args
-	if err := svc.pbVal.Validate(req); err != nil {
+	if err := (*svc.pbVal).Validate(req); err != nil {
 		// Provide the validation error to the user.
 		return nil, errors.NewServiceError(errors.ErrCodeInvalidArgument, "invalid request: "+err.Error())
 	}
@@ -98,7 +98,7 @@ func (svc ShippingService) ViewShipment(ctx context.Context, req *pb.ViewShipmen
 
 func (svc ShippingService) ViewShipmentManifest(ctx context.Context, req *pb.ViewShipmentManifestRequest) (*pb.ViewShipmentManifestResponse, error) {
 	// Validate the request args
-	if err := svc.pbVal.Validate(req); err != nil {
+	if err := (*svc.pbVal).Validate(req); err != nil {
 		// Provide the validation error to the user.
 		return nil, errors.NewServiceError(errors.ErrCodeInvalidArgument, "invalid request: "+err.Error())
 	}

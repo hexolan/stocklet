@@ -1,6 +1,6 @@
 version: v2
 deps:
-  - buf.build/bufbuild/protovalidate:e097f827e65240ac9fd4b1158849a8fc
+  - buf.build/bufbuild/protovalidate:v1.0.0
   - buf.build/googleapis/googleapis:b30c5775bfb3485d9da2e87b26590ac9
   - buf.build/grpc-ecosystem/grpc-gateway:3f42134f4c564983838425bc43c7a65f
 lint:

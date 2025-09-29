@@ -18,7 +18,7 @@ package user
 import (
 	"context"
 
-	"github.com/bufbuild/protovalidate-go"
+	"buf.build/go/protovalidate"
 	"github.com/rs/zerolog/log"
 
 	"github.com/hexolan/stocklet/internal/pkg/errors"
@@ -65,7 +65,7 @@ func NewUserService(cfg *ServiceConfig, store StorageController) *UserService {
 	// Initialise the service
 	return &UserService{
 		store: store,
-		pbVal: pbVal,
+		pbVal: &pbVal,
 	}
 }
 
@@ -79,7 +79,7 @@ func (svc UserService) ServiceInfo(ctx context.Context, req *commonpb.ServiceInf
 
 func (svc UserService) ViewUser(ctx context.Context, req *pb.ViewUserRequest) (*pb.ViewUserResponse, error) {
 	// Validate the request args
-	if err := svc.pbVal.Validate(req); err != nil {
+	if err := (*svc.pbVal).Validate(req); err != nil {
 		// Provide the validation error to the user.
 		return nil, errors.NewServiceError(errors.ErrCodeInvalidArgument, "invalid request: "+err.Error())
 	}
@@ -95,7 +95,7 @@ func (svc UserService) ViewUser(ctx context.Context, req *pb.ViewUserRequest) (*
 
 func (svc UserService) RegisterUser(ctx context.Context, req *pb.RegisterUserRequest) (*pb.RegisterUserResponse, error) {
 	// Validate the request args
-	if err := svc.pbVal.Validate(req); err != nil {
+	if err := (*svc.pbVal).Validate(req); err != nil {
 		// Provide the validation error to the user.
 		return nil, errors.NewServiceError(errors.ErrCodeInvalidArgument, "invalid request: "+err.Error())
 	}

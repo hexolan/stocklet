@@ -53,7 +53,7 @@ In the nature of open-source software, please consider contributing and giving b
 
 * Protobuf Libraries
   * [google.golang.org/protobuf](https://pkg.go.dev/google.golang.org/protobuf)
-  * [github.com/bufbuild/protovalidate-go](https://pkg.go.dev/github.com/bufbuild/protovalidate-go)
+  * [buf.build/go/protovalidate](https://pkg.go.dev/buf.build/go/protovalidate)
 
 * Tools
   * [plantuml.com](https://plantuml.com/)

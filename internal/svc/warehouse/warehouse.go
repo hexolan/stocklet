@@ -18,7 +18,7 @@ package warehouse
 import (
 	"context"
 
-	"github.com/bufbuild/protovalidate-go"
+	"buf.build/go/protovalidate"
 	"github.com/rs/zerolog/log"
 	"google.golang.org/protobuf/types/known/emptypb"
 
@@ -69,7 +69,7 @@ func NewWarehouseService(cfg *ServiceConfig, store StorageController) *Warehouse
 	// Initialise the service
 	return &WarehouseService{
 		store: store,
-		pbVal: pbVal,
+		pbVal: &pbVal,
 	}
 }
 
@@ -83,7 +83,7 @@ func (svc WarehouseService) ServiceInfo(ctx context.Context, req *commonpb.Servi
 
 func (svc WarehouseService) ViewProductStock(ctx context.Context, req *pb.ViewProductStockRequest) (*pb.ViewProductStockResponse, error) {
 	// Validate the request args
-	if err := svc.pbVal.Validate(req); err != nil {
+	if err := (*svc.pbVal).Validate(req); err != nil {
 		// Provide the validation error to the user.
 		return nil, errors.NewServiceError(errors.ErrCodeInvalidArgument, "invalid request: "+err.Error())
 	}
@@ -99,7 +99,7 @@ func (svc WarehouseService) ViewProductStock(ctx context.Context, req *pb.ViewPr
 
 func (svc WarehouseService) ViewReservation(ctx context.Context, req *pb.ViewReservationRequest) (*pb.ViewReservationResponse, error) {
 	// Validate the request args
-	if err := svc.pbVal.Validate(req); err != nil {
+	if err := (*svc.pbVal).Validate(req); err != nil {
 		// Provide the validation error to the user.
 		return nil, errors.NewServiceError(errors.ErrCodeInvalidArgument, "invalid request: "+err.Error())
 	}

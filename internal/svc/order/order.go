@@ -18,7 +18,7 @@ package order
 import (
 	"context"
 
-	"github.com/bufbuild/protovalidate-go"
+	"buf.build/go/protovalidate"
 	"github.com/rs/zerolog/log"
 	"google.golang.org/protobuf/types/known/emptypb"
 
@@ -70,7 +70,7 @@ func NewOrderService(cfg *ServiceConfig, store StorageController) *OrderService 
 	// Initialise the service
 	return &OrderService{
 		store: store,
-		pbVal: pbVal,
+		pbVal: &pbVal,
 	}
 }
 
@@ -84,7 +84,7 @@ func (svc OrderService) ServiceInfo(ctx context.Context, req *commonpb.ServiceIn
 
 func (svc OrderService) ViewOrder(ctx context.Context, req *pb.ViewOrderRequest) (*pb.ViewOrderResponse, error) {
 	// Validate the request args
-	if err := svc.pbVal.Validate(req); err != nil {
+	if err := (*svc.pbVal).Validate(req); err != nil {
 		// Provide the validation error to the user.
 		return nil, errors.NewServiceError(errors.ErrCodeInvalidArgument, "invalid request: "+err.Error())
 	}
@@ -100,7 +100,7 @@ func (svc OrderService) ViewOrder(ctx context.Context, req *pb.ViewOrderRequest)
 
 func (svc OrderService) ViewOrders(ctx context.Context, req *pb.ViewOrdersRequest) (*pb.ViewOrdersResponse, error) {
 	// Validate the request args
-	if err := svc.pbVal.Validate(req); err != nil {
+	if err := (*svc.pbVal).Validate(req); err != nil {
 		// provide validation err context to user
 		return nil, errors.NewServiceError(errors.ErrCodeInvalidArgument, "invalid request: "+err.Error())
 	}
@@ -128,7 +128,7 @@ func (svc OrderService) PlaceOrder(ctx context.Context, req *pb.PlaceOrderReques
 	}
 
 	// Validate the request args
-	if err := svc.pbVal.Validate(req); err != nil {
+	if err := (*svc.pbVal).Validate(req); err != nil {
 		// provide validation err context to user
 		return nil, errors.NewServiceError(errors.ErrCodeInvalidArgument, "invalid request: "+err.Error())
 	}

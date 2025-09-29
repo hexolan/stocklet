@@ -18,7 +18,7 @@ package auth
 import (
 	"context"
 
-	"github.com/bufbuild/protovalidate-go"
+	"buf.build/go/protovalidate"
 	"github.com/rs/zerolog/log"
 	"google.golang.org/protobuf/types/known/emptypb"
 
@@ -68,7 +68,7 @@ func NewAuthService(cfg *ServiceConfig, store StorageController) *AuthService {
 	svc := &AuthService{
 		cfg:   cfg,
 		store: store,
-		pbVal: pbVal,
+		pbVal: &pbVal,
 	}
 
 	return svc
@@ -84,7 +84,7 @@ func (svc AuthService) ServiceInfo(ctx context.Context, req *commonpb.ServiceInf
 
 func (svc AuthService) LoginPassword(ctx context.Context, req *pb.LoginPasswordRequest) (*pb.LoginPasswordResponse, error) {
 	// Validate the request args
-	if err := svc.pbVal.Validate(req); err != nil {
+	if err := (*svc.pbVal).Validate(req); err != nil {
 		// provide validation err context to user
 		return nil, errors.NewServiceError(errors.ErrCodeInvalidArgument, "invalid request: "+err.Error())
 	}
@@ -121,7 +121,7 @@ func (svc AuthService) SetPassword(ctx context.Context, req *pb.SetPasswordReque
 	}
 
 	// Validate the request args
-	if err := svc.pbVal.Validate(req); err != nil {
+	if err := (*svc.pbVal).Validate(req); err != nil {
 		// provide validation err context to user
 		return nil, errors.NewServiceError(errors.ErrCodeInvalidArgument, "invalid request: "+err.Error())
 	}
@@ -137,7 +137,7 @@ func (svc AuthService) SetPassword(ctx context.Context, req *pb.SetPasswordReque
 
 func (svc AuthService) ProcessUserDeletedEvent(ctx context.Context, req *eventpb.UserDeletedEvent) (*emptypb.Empty, error) {
 	// Validate the request args
-	if err := svc.pbVal.Validate(req); err != nil {
+	if err := (*svc.pbVal).Validate(req); err != nil {
 		// provide validation err context to user
 		return nil, errors.NewServiceError(errors.ErrCodeInvalidArgument, "invalid request: "+err.Error())
 	}

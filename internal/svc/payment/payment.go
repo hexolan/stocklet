@@ -18,7 +18,7 @@ package payment
 import (
 	"context"
 
-	"github.com/bufbuild/protovalidate-go"
+	"buf.build/go/protovalidate"
 	"github.com/rs/zerolog/log"
 	"google.golang.org/protobuf/types/known/emptypb"
 
@@ -70,7 +70,7 @@ func NewPaymentService(cfg *ServiceConfig, store StorageController) *PaymentServ
 	// Initialise the service
 	return &PaymentService{
 		store: store,
-		pbVal: pbVal,
+		pbVal: &pbVal,
 	}
 }
 

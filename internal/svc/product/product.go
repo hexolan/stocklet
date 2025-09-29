@@ -18,7 +18,7 @@ package product
 import (
 	"context"
 
-	"github.com/bufbuild/protovalidate-go"
+	"buf.build/go/protovalidate"
 	"github.com/rs/zerolog/log"
 	"google.golang.org/protobuf/types/known/emptypb"
 
@@ -68,7 +68,7 @@ func NewProductService(cfg *ServiceConfig, store StorageController) *ProductServ
 	// Initialise the service
 	return &ProductService{
 		store: store,
-		pbVal: pbVal,
+		pbVal: &pbVal,
 	}
 }
 
@@ -82,7 +82,7 @@ func (svc ProductService) ServiceInfo(ctx context.Context, req *commonpb.Service
 
 func (svc ProductService) ViewProduct(ctx context.Context, req *pb.ViewProductRequest) (*pb.ViewProductResponse, error) {
 	// Validate the request args
-	if err := svc.pbVal.Validate(req); err != nil {
+	if err := (*svc.pbVal).Validate(req); err != nil {
 		// Provide the validation error to the user.
 		return nil, errors.NewServiceError(errors.ErrCodeInvalidArgument, "invalid request: "+err.Error())
 	}
