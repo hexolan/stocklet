@@ -1,0 +1,15 @@
+meta {
+  name: ShippingService_ViewShipmentManifest
+  type: http
+  seq: 3
+}
+
+get {
+  url: {{baseUrl}}/v1/shipping/shipment/:shipmentId/manifest
+  body: none
+  auth: inherit
+}
+
+params:path {
+  shipmentId: 
+}

@@ -144,7 +144,7 @@ A full deployment will, in the nature of microservices being independent (etc), 
 
 ### Improving The Documentation
 
-Feel free to open a PR if you'd like to contribute updates which add to or improve the current documentation. There currently isn't standard that the documentation is following.
+Feel free to open a PR if you'd like to contribute updates which add to or improve the current documentation. There currently isn't a standard that the documentation is following.
 
 I do lint my Markdown files using [markdownlint](https://github.com/DavidAnson/markdownlint).
 

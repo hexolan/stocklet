@@ -1,0 +1,19 @@
+meta {
+  name: OrderService_PlaceOrder
+  type: http
+  seq: 3
+}
+
+post {
+  url: {{baseUrl}}/v1/order/place
+  body: json
+  auth: inherit
+}
+
+params:query {
+  ~customerId: 
+}
+
+body:json {
+  {}
+}

@@ -1,0 +1,15 @@
+meta {
+  name: WarehouseService_ViewProductStock
+  type: http
+  seq: 1
+}
+
+get {
+  url: {{baseUrl}}/v1/warehouse/product/:productId
+  body: none
+  auth: inherit
+}
+
+params:path {
+  productId: 
+}

@@ -1,0 +1,16 @@
+meta {
+  name: Get a list of a customer's orders.
+If accessed through the gateway - shows the current user's orders.
+  type: http
+  seq: 1
+}
+
+get {
+  url: {{baseUrl}}/v1/order/list
+  body: none
+  auth: inherit
+}
+
+params:query {
+  ~customerId: 
+}

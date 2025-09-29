@@ -1,0 +1,15 @@
+meta {
+  name: OrderService_ViewOrder
+  type: http
+  seq: 2
+}
+
+get {
+  url: {{baseUrl}}/v1/order/orders/:orderId
+  body: none
+  auth: inherit
+}
+
+params:path {
+  orderId: 
+}
