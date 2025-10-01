@@ -77,6 +77,7 @@ In the nature of open-source software, please consider contributing and giving b
   * [Debezium Connect](https://hub.docker.com/r/debezium/connect)
 * Provisioning and Deployment
   * [Docker](https://www.docker.com/) and [Docker Compose](https://docs.docker.com/compose/)
+  * **or** [Podman](https://github.com/podman-desktop/podman-desktop) and [Podman Compose](https://podman-desktop.io/docs/compose)
 
 ### 🧩 Services
 
@@ -104,7 +105,17 @@ Further documentation on the events can be found at [``/docs/EVENTS.md``](/docs/
 
 The application can be deployed using [Docker Compose](https://docs.docker.com/compose/) (with the compose files located in [``/deploy/docker/``](/deploy/docker/)). Ensure the correct configuration is in place by copying and removing ``.example`` from the end of the example environment files located in [``/deploy/configs/``](/deploy/configs/).
 
-Deploy using the following command: ``docker compose -f deploy/docker/compose.yaml -f deploy/docker/compose.override.yaml up --build``
+Deploy using the following command for Docker:
+
+```sh
+docker compose -f deploy/docker/compose.yaml -f deploy/docker/compose.override.yaml up --build
+```
+
+Deploy using the following command for Podman:
+
+```sh
+podman compose --file deploy/docker/compose.yaml --file deploy/docker/compose.override.yaml up --build
+```
 
 ## 🧪 Contributing
 
