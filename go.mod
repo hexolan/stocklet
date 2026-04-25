@@ -8,7 +8,7 @@ require (
 	github.com/doug-martin/goqu/v9 v9.19.0
 	github.com/golang-migrate/migrate/v4 v4.16.2
 	github.com/grpc-ecosystem/grpc-gateway/v2 v2.18.0
-	github.com/jackc/pgx/v5 v5.9.0
+	github.com/jackc/pgx/v5 v5.9.2
 	github.com/lestrrat-go/jwx/v2 v2.0.21
 	github.com/rs/zerolog v1.31.0
 	github.com/twmb/franz-go v1.15.0
