@@ -23,17 +23,17 @@ import "protoc-gen-openapiv2/options/annotations.proto";
 option go_package = "github.com/hexolan/stocklet/internal/pkg/protogen";
 option (grpc.gateway.protoc_gen_openapiv2.options.openapiv2_swagger) = {
   info: {
-    title: "Stocklet";
-    version: "0.1.0";
+    title: "Stocklet"
+    version: "0.1.0"
     contact: {
-      name: "GitHub Repository";
-      url: "https://github.com/hexolan/stocklet";
-    };
-    license: {
-      name: "AGPL-3.0";
-      url: "https://github.com/hexolan/stocklet/blob/main/LICENSE";
+      name: "GitHub Repository"
+      url: "https://github.com/hexolan/stocklet"
     }
-  };
-  host: "localhost";
-  schemes: HTTP;
+    license: {
+      name: "AGPL-3.0"
+      url: "https://github.com/hexolan/stocklet/blob/main/LICENSE"
+    }
+  }
+  host: "localhost"
+  schemes: HTTP
 };

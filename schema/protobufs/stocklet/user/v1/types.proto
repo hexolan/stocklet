@@ -27,12 +27,12 @@ message User {
   string email = 2 [(buf.validate.field).string.email = true];
 
   string first_name = 3 [(buf.validate.field).string = {
-    min_len: 1;
-    max_len: 35;
+    min_len: 1
+    max_len: 35
   }];
   string last_name = 4 [(buf.validate.field).string = {
-    min_len: 1;
-    max_len: 35;
+    min_len: 1
+    max_len: 35
   }];
 
   int64 created_at = 5;
