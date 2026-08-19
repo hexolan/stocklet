@@ -79,8 +79,8 @@ message LoginPasswordRequest {
   string password = 2 [
     (google.api.field_behavior) = REQUIRED,
     (buf.validate.field).string = {
-      min_len: 1;
-      max_len: 64;
+      min_len: 1
+      max_len: 64
     }
   ];
 }
@@ -99,8 +99,8 @@ message SetPasswordRequest {
   string password = 2 [
     (google.api.field_behavior) = REQUIRED,
     (buf.validate.field).string = {
-      min_len: 1;
-      max_len: 64;
+      min_len: 1
+      max_len: 64
     }
   ];
 }

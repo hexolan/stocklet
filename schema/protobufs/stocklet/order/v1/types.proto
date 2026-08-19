@@ -34,7 +34,7 @@ message Order {
   string id = 1 [(buf.validate.field).string.min_len = 1];
 
   OrderStatus status = 2 [(buf.validate.field).enum = {
-    defined_only: true,
+    defined_only: true
     not_in: [0]
   }];
 
