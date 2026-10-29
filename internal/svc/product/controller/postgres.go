@@ -190,7 +190,7 @@ func (c postgresController) PriceOrderProducts(ctx context.Context, orderId stri
 		return errors.WrapServiceError(errors.ErrCodeExtService, "failed to fetch price quotes", err)
 	}
 
-	var productPrices map[string]float32
+	productPrices := map[string]float32{}
 	for rows.Next() {
 		var productId string
 		var productPrice float32
