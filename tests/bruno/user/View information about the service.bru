@@ -1,0 +1,11 @@
+meta {
+  name: View information about the service.
+  type: http
+  seq: 2
+}
+
+get {
+  url: {{baseUrl}}/v1/user/service
+  body: none
+  auth: inherit
+}

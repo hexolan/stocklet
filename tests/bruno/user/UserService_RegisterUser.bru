@@ -1,0 +1,18 @@
+meta {
+  name: UserService_RegisterUser
+  type: http
+  seq: 1
+}
+
+post {
+  url: {{baseUrl}}/v1/user/register
+  body: none
+  auth: inherit
+}
+
+params:query {
+  firstName: 
+  lastName: 
+  email: 
+  password: 
+}

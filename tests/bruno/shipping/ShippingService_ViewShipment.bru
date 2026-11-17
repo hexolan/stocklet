@@ -1,0 +1,15 @@
+meta {
+  name: ShippingService_ViewShipment
+  type: http
+  seq: 2
+}
+
+get {
+  url: {{baseUrl}}/v1/shipping/shipment/:shipmentId
+  body: none
+  auth: inherit
+}
+
+params:path {
+  shipmentId: 
+}

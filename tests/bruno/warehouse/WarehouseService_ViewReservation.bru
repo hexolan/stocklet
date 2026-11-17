@@ -1,0 +1,15 @@
+meta {
+  name: WarehouseService_ViewReservation
+  type: http
+  seq: 2
+}
+
+get {
+  url: {{baseUrl}}/v1/warehouse/reservation/:reservationId
+  body: none
+  auth: inherit
+}
+
+params:path {
+  reservationId: 
+}

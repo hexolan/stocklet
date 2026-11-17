@@ -1,0 +1,11 @@
+meta {
+  name: AuthService_GetJwks
+  type: http
+  seq: 1
+}
+
+get {
+  url: {{baseUrl}}/v1/auth/jwks
+  body: none
+  auth: inherit
+}

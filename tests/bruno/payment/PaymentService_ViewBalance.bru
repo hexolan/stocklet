@@ -1,0 +1,15 @@
+meta {
+  name: PaymentService_ViewBalance
+  type: http
+  seq: 1
+}
+
+get {
+  url: {{baseUrl}}/v1/payment/balance/:customerId
+  body: none
+  auth: inherit
+}
+
+params:path {
+  customerId: 
+}
