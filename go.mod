@@ -1,6 +1,6 @@
 module github.com/hexolan/stocklet
 
-go 1.26.0
+go 1.27.4
 
 require (
 	buf.build/gen/go/bufbuild/protovalidate/protocolbuffers/go v1.31.0-20231106192134-1baebb0a1518.2
