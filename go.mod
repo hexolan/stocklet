@@ -41,6 +41,9 @@ require (
 	github.com/charmbracelet/x/windows v0.2.2 // indirect
 	github.com/clipperhouse/displaywidth v0.11.0 // indirect
 	github.com/clipperhouse/uax29/v2 v2.7.0 // indirect
+	github.com/conventionalcommit/commitlint v0.12.0 // indirect
+	github.com/conventionalcommit/parser v0.8.0 // indirect
+	github.com/cpuguy83/go-md2man/v2 v2.0.7 // indirect
 	github.com/creack/pty v1.1.24 // indirect
 	github.com/decred/dcrd/dcrec/secp256k1/v4 v4.2.0 // indirect
 	github.com/distribution/reference v0.5.0 // indirect
@@ -92,14 +95,17 @@ require (
 	github.com/pelletier/go-toml/v2 v2.4.3 // indirect
 	github.com/pierrec/lz4/v4 v4.1.18 // indirect
 	github.com/rivo/uniseg v0.4.7 // indirect
+	github.com/russross/blackfriday/v2 v2.1.0 // indirect
 	github.com/schollz/progressbar/v3 v3.19.1 // indirect
 	github.com/segmentio/asm v1.2.0 // indirect
 	github.com/spf13/afero v1.15.0 // indirect
 	github.com/stoewer/go-strcase v1.3.0 // indirect
 	github.com/tidwall/jsonc v0.3.3 // indirect
 	github.com/twmb/franz-go/pkg/kmsg v1.6.1 // indirect
+	github.com/urfave/cli/v2 v2.27.7 // indirect
 	github.com/urfave/cli/v3 v3.14.0 // indirect
 	github.com/xo/terminfo v0.0.0-20220910002029-abceb7e1c41e // indirect
+	github.com/xrash/smetrics v0.0.0-20250705151800-55b8f293f342 // indirect
 	github.com/yosida95/uritemplate/v3 v3.0.2 // indirect
 	go.opentelemetry.io/auto/sdk v1.2.1 // indirect
 	go.opentelemetry.io/otel/exporters/otlp/otlptrace v1.45.0 // indirect
@@ -116,6 +122,10 @@ require (
 	golang.org/x/term v0.46.0 // indirect
 	golang.org/x/text v0.42.0 // indirect
 	google.golang.org/genproto/googleapis/rpc v0.0.0-20260803160001-6ac0973c030d // indirect
+	gopkg.in/yaml.v2 v2.4.0 // indirect
 )
 
-tool github.com/evilmartians/lefthook/v2
+tool (
+	github.com/conventionalcommit/commitlint
+	github.com/evilmartians/lefthook/v2
+)
