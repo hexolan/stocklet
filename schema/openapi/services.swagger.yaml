@@ -461,7 +461,7 @@ definitions:
     properties:
       '@type':
         type: string
-    additionalProperties: {}
+    additionalProperties: true
   rpcStatus:
     type: object
     properties:
@@ -553,7 +553,7 @@ definitions:
       - ORDER_STATUS_APPROVED
       - ORDER_STATUS_COMPLETED
     default: ORDER_STATUS_UNSPECIFIED
-    title: |-
+    description: |-
       - ORDER_STATUS_PROCESSING: awaiting price quotes for products
        - ORDER_STATUS_PENDING: awaiting stock allocation, shipping allotment and payment
   v1PlaceOrderResponse:
