@@ -2,9 +2,9 @@ version: v2
 modules:
   - path: schema/protobufs
 deps:
-  - buf.build/bufbuild/protovalidate
+  - buf.build/bufbuild/protovalidate:v1.2.2
   - buf.build/googleapis/googleapis
-  - buf.build/grpc-ecosystem/grpc-gateway
+  - buf.build/grpc-ecosystem/grpc-gateway:v2.34.0
 lint:
   use:
     - DEFAULT
