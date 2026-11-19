@@ -1,0 +1,6 @@
+pre-commit:
+  jobs:
+    - name: lint codebase
+      run: gofmt -e .
+    - name: lint protobufs
+      run: buf lint
