@@ -1,6 +1,8 @@
 install-tools:
 	go install github.com/bufbuild/buf/cmd/buf@v1.27.2
 	go install -tags 'postgres' github.com/golang-migrate/migrate/v4/cmd/migrate@v4.17.0
+	# linting (todo: os-agnostic installation)
+	curl -sSfL https://golangci-lint.run/install.sh | sh -s -- -b $(go env GOPATH)/bin v2.15.0
 
 generate-protobufs:
 	buf generate
