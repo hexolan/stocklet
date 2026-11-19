@@ -34,7 +34,7 @@ type WarehouseService struct {
 	pb.UnimplementedWarehouseServiceServer
 
 	store StorageController
-	pbVal *protovalidate.Validator
+	pbVal protovalidate.Validator
 }
 
 // Interface for database methods

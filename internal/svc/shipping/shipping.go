@@ -34,7 +34,7 @@ type ShippingService struct {
 	pb.UnimplementedShippingServiceServer
 
 	store StorageController
-	pbVal *protovalidate.Validator
+	pbVal protovalidate.Validator
 }
 
 // Interface for database methods

@@ -34,7 +34,7 @@ type ProductService struct {
 	pb.UnimplementedProductServiceServer
 
 	store StorageController
-	pbVal *protovalidate.Validator
+	pbVal protovalidate.Validator
 }
 
 // Interface for database methods

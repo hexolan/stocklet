@@ -35,7 +35,7 @@ type OrderService struct {
 	pb.UnimplementedOrderServiceServer
 
 	store StorageController
-	pbVal *protovalidate.Validator
+	pbVal protovalidate.Validator
 }
 
 // Interface for database methods

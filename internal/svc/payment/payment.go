@@ -34,7 +34,7 @@ type PaymentService struct {
 	pb.UnimplementedPaymentServiceServer
 
 	store StorageController
-	pbVal *protovalidate.Validator
+	pbVal protovalidate.Validator
 }
 
 // Interface for database methods
