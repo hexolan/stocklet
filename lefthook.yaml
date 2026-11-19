@@ -1,0 +1,10 @@
+pre-commit:
+  jobs:
+    - name: lint commit msg
+      run: go tool commitlint lint
+    # TODO: move to a workflow run (only perform lighter `go fmt` checking)
+    #       ideally only against checked-in files.
+    #- name: full lint go codebase
+    #  run: golangci-lint run
+    - name: lint protobufs
+      run: buf lint
