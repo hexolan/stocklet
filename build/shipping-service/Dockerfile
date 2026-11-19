@@ -1,4 +1,4 @@
-FROM golang:1.22 AS build
+FROM golang:1.27.4 AS build
 WORKDIR /app
 
 # Install required modules
