@@ -18,7 +18,7 @@ package auth
 import (
 	"context"
 
-	"github.com/bufbuild/protovalidate-go"
+	"buf.build/go/protovalidate"
 	"github.com/rs/zerolog/log"
 	"google.golang.org/protobuf/types/known/emptypb"
 
@@ -37,7 +37,7 @@ type AuthService struct {
 	cfg *ServiceConfig
 
 	store StorageController
-	pbVal *protovalidate.Validator
+	pbVal protovalidate.Validator
 }
 
 // Interface for database methods

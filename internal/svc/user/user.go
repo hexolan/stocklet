@@ -18,7 +18,7 @@ package user
 import (
 	"context"
 
-	"github.com/bufbuild/protovalidate-go"
+	"buf.build/go/protovalidate"
 	"github.com/rs/zerolog/log"
 
 	"github.com/hexolan/stocklet/internal/pkg/errors"
@@ -32,7 +32,7 @@ type UserService struct {
 	pb.UnimplementedUserServiceServer
 
 	store StorageController
-	pbVal *protovalidate.Validator
+	pbVal protovalidate.Validator
 }
 
 // Interface for database methods

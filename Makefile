@@ -1,12 +1,12 @@
 install-tools:
-	go install github.com/bufbuild/buf/cmd/buf@v1.27.2
-	go install -tags 'postgres' github.com/golang-migrate/migrate/v4/cmd/migrate@v4.17.0
+	go install -tags 'postgres' github.com/golang-migrate/migrate/v4/cmd/migrate@v4.20.1
+	echo "install other deps through go tool"
 
 generate-protobufs:
-	buf generate
+	go tool buf generate
 
 format:
-	buf format -w
+	go tool buf format -w
 	gofmt -w -s .
 
 deploy-docker:
