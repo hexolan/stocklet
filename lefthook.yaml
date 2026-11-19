@@ -1,6 +1,8 @@
 pre-commit:
   jobs:
-    - name: lint go codebase
+    - name: lint commit msg
+      run: go tool commitlint lint --message=./.git/COMMIT_EDITMSG
+    - name: full lint go codebase
       run: golangci-lint run
     - name: lint protobufs
       run: buf lint
